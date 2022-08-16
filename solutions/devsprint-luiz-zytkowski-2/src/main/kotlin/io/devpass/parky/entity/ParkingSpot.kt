@@ -8,10 +8,8 @@ import javax.persistence.Id
 class ParkingSpot(
     @Id
     var id: Int,
-    @NotNull
     var floor: Int,
-    @NotNull
     var spot: Int,
-
-    var in_use_by: Int) {
+    var inUseBy: Int,
+    ) {
 }
