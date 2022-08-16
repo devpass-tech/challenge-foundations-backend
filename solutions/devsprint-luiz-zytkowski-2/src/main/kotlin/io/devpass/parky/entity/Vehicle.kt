@@ -10,9 +10,9 @@ import kotlin.random.Random
 @Entity
 data class Vehicle(
     @Id
-    var vehicleId: Int = Random.nextInt().absoluteValue,
+    var id: Int = Random.nextInt().absoluteValue,
     var brand: String,
-    var vehicleColor: String,
+    var color: String,
     var owner: String,
     @CreationTimestamp
     var createdAt: LocalDateTime = LocalDateTime.now()
