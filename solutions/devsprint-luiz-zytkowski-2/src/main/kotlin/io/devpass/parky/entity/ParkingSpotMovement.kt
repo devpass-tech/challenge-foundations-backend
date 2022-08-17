@@ -8,7 +8,7 @@ import kotlin.math.absoluteValue
 import kotlin.random.Random
 
 @Entity
-data class ParkingSpot(
+data class ParkingSpotMovement(
         @Id
         var id: Int = Random.nextInt().absoluteValue,
         var parking_spot_id: Int,
