@@ -11,5 +11,5 @@ data class ParkingSpot(
     var id: Int = Random.nextInt().absoluteValue,
     var floor: Int,
     var spot: Int,
-    var inUseBy: Int,
+    var inUseBy: Int? = null,
 )
