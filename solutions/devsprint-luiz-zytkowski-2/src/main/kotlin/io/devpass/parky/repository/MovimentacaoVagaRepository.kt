@@ -1,9 +1,9 @@
 package io.devpass.parky.repository
 
-import io.devpass.parky.entity.MovimentacaoVaga
+import io.devpass.parky.entity.ParkingSpotMovement
 import org.springframework.data.repository.CrudRepository
 import org.springframework.stereotype.Repository
 
 @Repository
-interface MovimentacaoVagaRepository : CrudRepository<MovimentacaoVaga, Int> {
+interface ParkingSpotMovementRepository : CrudRepository<ParkingSpotMovement, Int> {
 }
