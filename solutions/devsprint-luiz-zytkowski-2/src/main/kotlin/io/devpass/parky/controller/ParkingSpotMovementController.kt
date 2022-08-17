@@ -5,6 +5,6 @@ import org.springframework.web.bind.annotation.RequestMapping
 import org.springframework.web.bind.annotation.RestController
 
 @RestController
-@RequestMapping("/parking-spots")
+@RequestMapping("/parking-spot-movements")
 class ParkingSpotMovementController(
     private val parkingSpotMovementService: ParkingSpotMovementService) {}
