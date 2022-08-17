@@ -7,9 +7,9 @@ import javax.persistence.Id
 
 @Entity
 data class ParkingSpotMovement(
-        @Id
-        var parkingSpotId: Int,
-        var event: Int,
-        @CreationTimestamp
-        var createdAt: LocalDateTime
+    @Id
+    var parkingSpotId: Int,
+    var event: Int,
+    @CreationTimestamp
+    var createdAt: LocalDateTime,
 )

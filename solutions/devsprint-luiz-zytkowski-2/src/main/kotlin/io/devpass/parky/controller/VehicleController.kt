@@ -7,5 +7,5 @@ import org.springframework.web.bind.annotation.RestController
 @RestController
 @RequestMapping("/vehicles")
 class VehicleController(
-        private val vehicleService: VehicleService
+    private val vehicleService: VehicleService,
 ) {}

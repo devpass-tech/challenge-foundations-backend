@@ -15,6 +15,6 @@ data class Vehicle(
     var color: String,
     var owner: String,
     @CreationTimestamp
-    var createdAt: LocalDateTime = LocalDateTime.now()
+    var createdAt: LocalDateTime = LocalDateTime.now(),
 )
 

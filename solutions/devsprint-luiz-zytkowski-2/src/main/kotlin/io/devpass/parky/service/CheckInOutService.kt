@@ -7,5 +7,5 @@ class CheckInOutService(
     private val parkingSpotMovementService: ParkingSpotMovementService,
     private val vehicleService: VehicleService,
     private val parkingSpotService: ParkingSpotService,
-    ) {
+) {
 }

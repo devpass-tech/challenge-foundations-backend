@@ -7,4 +7,5 @@ import org.springframework.web.bind.annotation.RestController
 @RestController
 @RequestMapping("/parking-spot-movements")
 class ParkingSpotMovementController(
-    private val parkingSpotMovementService: ParkingSpotMovementService) {}
+    private val parkingSpotMovementService: ParkingSpotMovementService,
+) {}

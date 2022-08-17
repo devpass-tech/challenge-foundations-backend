@@ -6,7 +6,7 @@ import org.springframework.web.bind.annotation.RestController
 
 @RestController
 @RequestMapping("/check-in-out")
-class CheckInCheckOutController (
-    private val checkInOutService : CheckInOutService
-        ) {
+class CheckInCheckOutController(
+    private val checkInOutService: CheckInOutService,
+) {
 }

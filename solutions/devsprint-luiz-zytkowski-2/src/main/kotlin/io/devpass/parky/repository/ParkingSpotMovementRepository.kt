@@ -5,5 +5,4 @@ import org.springframework.data.repository.CrudRepository
 import org.springframework.stereotype.Repository
 
 @Repository
-interface ParkingSpotMovementRepository : CrudRepository<ParkingSpotMovement, Int> {
-}
+interface ParkingSpotMovementRepository : CrudRepository<ParkingSpotMovement, Int>
