@@ -13,11 +13,3 @@ data class ParkingSpotMovement(
         @CreationTimestamp
         var createdAt: LocalDateTime
 )
-
-
-
-
-
-
-
-
