@@ -6,5 +6,9 @@ import org.springframework.stereotype.Service
 
 @Service
 class ParkingSpotService(
-    private val parkingSpotRepository: ParkingSpotRepository,
-)
+    private val parkingSpotRepository: ParkingSpotRepository
+) {
+    fun findAll() : MutableIterable<ParkingSpot> {
+        return parkingSpotRepository.findAll()
+    }
+}
