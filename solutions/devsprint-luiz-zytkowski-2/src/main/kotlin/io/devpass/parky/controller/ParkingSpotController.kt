@@ -13,7 +13,7 @@ class ParkingSpotController(
     private val parkingSpotService: ParkingSpotService,
 ) {
     @GetMapping
-    fun findAll(): ResponseEntity<MutableIterable<ParkingSpot>> {
+    fun findAll(): ResponseEntity<List<ParkingSpot>> {
         val listOfParkingSpot = parkingSpotService.findAll()
         return ResponseEntity.ok(listOfParkingSpot)
     }
