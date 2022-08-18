@@ -8,9 +8,9 @@ import org.springframework.stereotype.Service
 class ParkingSpotService(
     private val parkingSpotRepository: ParkingSpotRepository,
 ) {
-    fun findById(parkingSpotId: Int): ParkingSpot?{
+    fun findById(parkingSpotId: Int): ParkingSpot? {
         return parkingSpotRepository.findById(parkingSpotId).let {
-            if(it.isPresent) it.get() else null
+            if (it.isPresent) it.get() else null
         }
     }
 }
