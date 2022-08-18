@@ -12,8 +12,8 @@ import org.springframework.web.bind.annotation.RestController
 class ParkingSpotController(
     private val parkingSpotService: ParkingSpotService,
 ) {
-    @GetMapping()
-    fun findAll(): ResponseEntity<List<ParkingSpot>> {
+    @GetMapping
+    fun findAll(): ResponseEntity<MutableIterable<ParkingSpot>> {
         val listOfParkingSpot = parkingSpotService.findAll()
         return ResponseEntity.ok(listOfParkingSpot)
     }
