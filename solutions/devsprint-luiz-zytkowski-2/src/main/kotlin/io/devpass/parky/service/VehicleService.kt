@@ -8,9 +8,9 @@ import org.springframework.stereotype.Service
 class VehicleService(
     private val vehicleRepository: VehicleRepository,
 ) {
-    fun findById(vehicleId: Int): Vehicle?{
+    fun findById(vehicleId: Int): Vehicle? {
         return vehicleRepository.findById(vehicleId).let {
-            if(it.isPresent) it.get() else null
+            if (it.isPresent) it.get() else null
         }
     }
 }
