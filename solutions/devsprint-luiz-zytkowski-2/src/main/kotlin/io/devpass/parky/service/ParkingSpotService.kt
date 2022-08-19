@@ -13,4 +13,8 @@ class ParkingSpotService(
             if (it.isPresent) it.get() else null
         }
     }
+
+    fun findEmptyParkingSpotAtRandom(): ParkingSpot{
+        return parkingSpotRepository.getRandomEmptyParkingSpot().random()
+    }
 }
