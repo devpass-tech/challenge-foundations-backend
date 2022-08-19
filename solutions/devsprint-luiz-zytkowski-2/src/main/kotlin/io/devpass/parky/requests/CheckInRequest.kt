@@ -1,10 +1,10 @@
 package io.devpass.parky.requests
 
-import io.devpass.parky.entity.ParkingSpot
-import io.devpass.parky.entity.Vehicle
-
 data class CheckInRequest(
-    var vehicle: Vehicle,
-    var parkingSpot: ParkingSpot,
-) {
-}
+    var vehicleId: Int,
+    var vehicleBrand: String,
+    var vehicleColor: String,
+    var vehicleOwner: String,
+    var vehicleCreatedAt: String,
+    var parkingSpotId: Int,
+) {}
