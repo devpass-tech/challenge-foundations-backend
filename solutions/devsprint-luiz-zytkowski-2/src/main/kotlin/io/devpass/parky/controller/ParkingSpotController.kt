@@ -13,6 +13,13 @@ import org.springframework.web.bind.annotation.RestController
 class ParkingSpotController(
     private val parkingSpotService: ParkingSpotService,
 ) {
+
+    @GetMapping
+    fun findAll(): ResponseEntity<List<ParkingSpot>> {
+        val listOfParkingSpot = parkingSpotService.findAll()
+        return ResponseEntity.ok(listOfParkingSpot)
+    }
+
     @GetMapping("/{parkingSpotId}")
     fun getParkingSpotById(
         @PathVariable parkingSpotId: Int
@@ -22,5 +29,5 @@ class ParkingSpotController(
             ResponseEntity.ok(parkingSpot)
         } else ResponseEntity.notFound().build()
     }
-}
 
+}
