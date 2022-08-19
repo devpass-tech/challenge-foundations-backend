@@ -1,10 +1,15 @@
 package io.devpass.parky.service
 
 import io.devpass.parky.repository.ParkingSpotMovementRepository
+import io.devpass.parky.service.entity.ParkingSpot
+import io.devpass.parky.service.entity.ParkingSpotMovement
 import org.springframework.stereotype.Service
 
 @Service
 class ParkingSpotMovementService(
-    private val parkingSpotMovementRepository: ParkingSpotMovementRepository,
+        private val parkingSpotMovementRepository: ParkingSpotMovementRepository,
 ) {
+    fun listAllMovement(parkingSpotId:Int) : List<ParkingSpotMovement> {
+        return parkingSpotMovementRepository.listAllMovement(parkingSpotId)
+    }
 }
