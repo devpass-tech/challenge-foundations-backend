@@ -12,14 +12,15 @@ import org.springframework.web.bind.annotation.RestController
 @RequestMapping("/parking-spot")
 class ParkingSpotController(
     private val parkingSpotService: ParkingSpotService,
-)
-
-@GetMapping("/{parkingSpotId}")
-fun getParkingSpotById(
-    @PathVariable parkingSpotId: Int
-): ResponseEntity<ParkingSpot> {
-    val parkingSpot = ParkingSpotService.findById(parkingSpotId)
-    return if (parkingSpot != null) {
-        ResponseEntity.ok(parkingSpot)
-    } else ResponseEntity.notFound().build()
+) {
+    @GetMapping("/{parkingSpotId}")
+    fun getParkingSpotById(
+        @PathVariable parkingSpotId: Int
+    ): ResponseEntity<ParkingSpot> {
+        val parkingSpot = ParkingSpotService.findById(parkingSpotId)
+        return if (parkingSpot != null) {
+            ResponseEntity.ok(parkingSpot)
+        } else ResponseEntity.notFound().build()
+    }
 }
+
