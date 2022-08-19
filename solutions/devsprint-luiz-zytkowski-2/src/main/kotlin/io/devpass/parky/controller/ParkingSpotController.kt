@@ -17,7 +17,7 @@ class ParkingSpotController(
     fun getParkingSpotById(
         @PathVariable parkingSpotId: Int
     ): ResponseEntity<ParkingSpot> {
-        val parkingSpot = ParkingSpotService.findById(parkingSpotId)
+        val parkingSpot = parkingSpotService.findById(parkingSpotId)
         return if (parkingSpot != null) {
             ResponseEntity.ok(parkingSpot)
         } else ResponseEntity.notFound().build()
