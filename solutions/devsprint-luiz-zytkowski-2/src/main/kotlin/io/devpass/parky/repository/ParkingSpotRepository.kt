@@ -8,7 +8,6 @@ import org.springframework.stereotype.Repository
 @Repository
 interface ParkingSpotRepository : CrudRepository<ParkingSpot, Int>{
 
-    //ver a melhor ou a forma correta de fazer a query
-    @Query("SELECT  from ParkingSpot where ParkingSpot.inUseBy = inUseBy")
+    @Query("SELECT ps from ParkingSpot ps where ps.inUseBy is null")
     fun getRandomEmptyParkingSpot(): List<ParkingSpot>
 }
