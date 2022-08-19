@@ -12,7 +12,7 @@ import org.springframework.web.bind.annotation.RestController
 class ParkingSpotController(
     private val parkingSpotService: ParkingSpotService,
 ){
-    @GetMapping("/parking-spot-random-vacancy")
+    @GetMapping("/random-available")
     fun getRandomEmptyParkingSpot(): ParkingSpot {
         return parkingSpotService.findEmptyParkingSpotAtRandom()
     }
