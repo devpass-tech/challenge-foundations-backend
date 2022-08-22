@@ -14,7 +14,7 @@ class VehicleService(
         }
     }
 
-    fun create(vehicle: Vehicle) {
-        vehicleRepository.save(vehicle)
+    fun create(vehicle: Vehicle): Vehicle {
+        return vehicleRepository.save(vehicle)
     }
 }
