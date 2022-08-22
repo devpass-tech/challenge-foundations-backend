@@ -11,34 +11,6 @@ class CheckInOutService(
     private val vehicleService: VehicleService,
     private val parkingSpotService: ParkingSpotService,
 ) {
-
-    fun createCheckIn(checkIn: CheckInRequest) {
-
-        val vehicle = vehicleService.create(
-            Vehicle(
-                brand = checkIn.vehicle.brand,
-                color = checkIn.vehicle.color,
-                owner = checkIn.vehicle.owner
-            )
-        )
-
-        val parkingSpot = parkingSpotService.findById(checkIn.parkingSpotId)
-            ?: throw Exception("Vaga não encontrada")
-
-        if (parkingSpot.inUseBy != null) {
-            throw Exception("Vaga ocupada pelo veículo: $vehicle")
-        }
-
-        parkingSpot.inUseBy = vehicle.id
-        parkingSpotService.update(parkingSpot)
-
-        val parkingSpotMovement = ParkingSpotMovement(
-            parkingSpotId = parkingSpot.id,
-            event = "Check-in realizado pelo veículo: ${vehicle.id}"
-        )
-        parkingSpotMovementService.create(parkingSpotMovement)
-    }
-
     fun delete(id: Int) {
         val parkingSpot = parkingSpotService.findById(id)
             ?: throw Exception("Vaga não encontrada")

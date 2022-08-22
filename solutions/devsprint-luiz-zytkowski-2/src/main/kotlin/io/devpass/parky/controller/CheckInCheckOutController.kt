@@ -11,15 +11,6 @@ import org.springframework.web.bind.annotation.*
 class CheckInCheckOutController(
     private val checkInOutService: CheckInOutService,
 ) {
-
-    @PostMapping
-    fun createCheckIn(
-        @RequestBody checkInRequest: CheckInRequest
-    ): ResponseEntity<String> {
-        checkInOutService.createCheckIn(checkInRequest)
-        return ResponseEntity.ok("Deu bom")
-    }
-
     @DeleteMapping("/{parkingSpotId}")
     fun deleteCheckIn(@PathVariable parkingSpotId: Int): HttpStatus {
         checkInOutService.delete(parkingSpotId)
