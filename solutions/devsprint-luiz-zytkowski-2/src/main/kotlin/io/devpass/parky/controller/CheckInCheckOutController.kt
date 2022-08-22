@@ -1,9 +1,7 @@
 package io.devpass.parky.controller
 
-import io.devpass.parky.requests.CheckInRequest
 import io.devpass.parky.service.CheckInOutService
 import org.springframework.http.HttpStatus
-import org.springframework.http.ResponseEntity
 import org.springframework.web.bind.annotation.*
 
 @RestController

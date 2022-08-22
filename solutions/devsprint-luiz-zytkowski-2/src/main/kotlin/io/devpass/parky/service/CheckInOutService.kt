@@ -1,8 +1,6 @@
 package io.devpass.parky.service
 
 import io.devpass.parky.entity.ParkingSpotMovement
-import io.devpass.parky.entity.Vehicle
-import io.devpass.parky.requests.CheckInRequest
 import org.springframework.stereotype.Service
 
 @Service
