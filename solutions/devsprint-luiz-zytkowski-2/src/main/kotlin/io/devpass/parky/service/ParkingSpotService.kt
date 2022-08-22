@@ -22,4 +22,8 @@ class ParkingSpotService(
     fun findEmptyParkingSpotAtRandom(): ParkingSpot{
         return parkingSpotRepository.getRandomEmptyParkingSpot().random()
     }
+
+    fun findEmptyParkingSpotByFloor(floor: Int): ParkingSpot {
+        return parkingSpotRepository.getParkingSpotByFloor(floor).random()
+    }
 }
