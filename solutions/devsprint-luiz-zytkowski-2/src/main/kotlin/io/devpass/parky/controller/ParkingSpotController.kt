@@ -12,7 +12,7 @@ import org.springframework.web.bind.annotation.RestController
 @RequestMapping("/parking-spot")
 class ParkingSpotController(
     private val parkingSpotService: ParkingSpotService,
-){
+) {
     @GetMapping("/random-available")
     fun getRandomEmptyParkingSpot(): ParkingSpot {
         return parkingSpotService.findEmptyParkingSpotAtRandom()
@@ -34,4 +34,10 @@ class ParkingSpotController(
         } else ResponseEntity.notFound().build()
     }
 
+    @GetMapping("/random-available/floor/{floor}")
+    fun getRandomParkingSpotByFloor(
+        @PathVariable floor: Int
+    ): ParkingSpot {
+        return parkingSpotService.findEmptyParkingSpotByFloor(floor)
+    }
 }
