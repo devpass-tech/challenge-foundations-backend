@@ -9,8 +9,8 @@ class CheckInOutService(
     private val vehicleService: VehicleService,
     private val parkingSpotService: ParkingSpotService,
 ) {
-    fun delete(id: Int) {
-        val parkingSpot = parkingSpotService.findById(id)
+    fun removeCheckIn(parkingSpotId: Int) {
+        val parkingSpot = parkingSpotService.findById(parkingSpotId)
             ?: throw Exception("Vaga não encontrada")
 
         if (parkingSpot.inUseBy == null) {
@@ -18,7 +18,7 @@ class CheckInOutService(
         }
 
         val parkingSpotMovement = ParkingSpotMovement(
-            parkingSpotId = id,
+            parkingSpotId = parkingSpotId,
             event = "Check-out realizado pelo veículo: ${parkingSpot.inUseBy}"
         )
         parkingSpotMovementService.create(parkingSpotMovement)
