@@ -1,7 +1,7 @@
 package io.devpass.parky.service
 
 import io.devpass.parky.repository.ParkingSpotMovementRepository
-import io.devpass.parky.service.entity.ParkingSpotMovement
+import io.devpass.parky.entity.ParkingSpotMovement
 import org.springframework.stereotype.Service
 
 @Service
