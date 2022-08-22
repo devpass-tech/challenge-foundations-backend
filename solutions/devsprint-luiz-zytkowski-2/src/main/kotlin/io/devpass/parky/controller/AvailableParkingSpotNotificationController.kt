@@ -5,7 +5,7 @@ import org.springframework.web.bind.annotation.RequestMapping
 import org.springframework.web.bind.annotation.RestController
 
 @RestController
-@RequestMapping("/avaible-parking-spot")
+@RequestMapping("/available-parking-spot")
 class AvailableParkingSpotNotificationController(
     private val availableParkingSpotNotificationService: AvailableParkingSpotNotificationService,
 )
