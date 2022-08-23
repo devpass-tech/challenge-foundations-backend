@@ -12,7 +12,8 @@ class AvailableParkingSpotNotificationService(
     fun checkOutNotification(parkingSpotId: Int) {
         val availableParkingSpotNotification =
             availableParkingSpotNotificationRepository.findByParkingSpotId(parkingSpotId).ifEmpty {
-                throw OwnedException("Notificação não encontrada para a vaga $parkingSpotId!")
+                println("Nenhuma pessoa precisou ser notificada")
+                return
             }
         availableParkingSpotNotification.forEach {
             println("O email é ${it.email}")
