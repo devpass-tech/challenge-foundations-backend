@@ -6,9 +6,13 @@ import org.springframework.stereotype.Service
 
 @Service
 class ParkingSpotMovementService(
-        private val parkingSpotMovementRepository: ParkingSpotMovementRepository,
+    private val parkingSpotMovementRepository: ParkingSpotMovementRepository,
 ) {
-    fun listAllMovement(parkingSpotId:Int) : List<ParkingSpotMovement> {
+    fun listAllMovement(parkingSpotId: Int): List<ParkingSpotMovement> {
         return parkingSpotMovementRepository.listAllMovement(parkingSpotId)
+    }
+
+    fun create(parkingSpotMovement: ParkingSpotMovement) {
+        parkingSpotMovementRepository.save(parkingSpotMovement)
     }
 }
