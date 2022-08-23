@@ -11,7 +11,6 @@ class AvailableParkingSpotNotificationService(
 ) {
 
     fun createNotification(availableParkingSpotNotificationRequest: AvailableParkingSpotNotificationRequest) {
-        //checar se há notificacao criada para aquele email && vaga
 
         val notificationCreated = availableParkingSpotNotificationRepository.findEmailAndParkingSpotId(
             availableParkingSpotNotificationRequest.parkingSpotId,
