@@ -1,6 +1,7 @@
 package io.devpass.parky.service
 
 import io.devpass.parky.entity.ParkingSpotMovement
+import io.devpass.parky.entity.ParkingSpotMovement
 import io.devpass.parky.entity.Vehicle
 import io.devpass.parky.requests.CheckInRequest
 import org.springframework.stereotype.Service
@@ -35,5 +36,23 @@ class CheckInOutService(
             parkingSpotId = parkingSpot.id,
             event = "Check-in realizado pelo veículo: ${vehicle.id}")
         parkingSpotMovementService.create(parkingSpotMovement)
+    }
+
+    fun removeCheckIn(parkingSpotId: Int) {
+        val parkingSpot = parkingSpotService.findById(parkingSpotId)
+            ?: throw Exception("Vaga não encontrada")
+
+        if (parkingSpot.inUseBy == null) {
+            throw Exception("Vaga livre")
+        }
+
+        val parkingSpotMovement = ParkingSpotMovement(
+            parkingSpotId = parkingSpotId,
+            event = "Check-out realizado pelo veículo: ${parkingSpot.inUseBy}"
+        )
+        parkingSpotMovementService.create(parkingSpotMovement)
+
+        parkingSpot.inUseBy = null
+        parkingSpotService.update(parkingSpot)
     }
 }
