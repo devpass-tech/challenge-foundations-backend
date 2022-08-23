@@ -9,7 +9,7 @@ class ParkingSpotService(
     private val parkingSpotRepository: ParkingSpotRepository,
 ) {
 
-    fun findAll() : List<ParkingSpot>{
+    fun findAll(): List<ParkingSpot> {
         return parkingSpotRepository.findAll().toList()
     }
 
@@ -19,11 +19,15 @@ class ParkingSpotService(
         }
     }
 
-    fun findEmptyParkingSpotAtRandom(): ParkingSpot{
+    fun findEmptyParkingSpotAtRandom(): ParkingSpot {
         return parkingSpotRepository.getRandomEmptyParkingSpot().random()
     }
 
     fun findEmptyParkingSpotByFloor(floor: Int): ParkingSpot {
         return parkingSpotRepository.getParkingSpotByFloor(floor).random()
+    }
+    
+    fun update(parkingSpot: ParkingSpot): ParkingSpot {
+        return parkingSpotRepository.save(parkingSpot)
     }
 }
