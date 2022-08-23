@@ -34,4 +34,11 @@ class ParkingSpotController(
         } else ResponseEntity.notFound().build()
     }
 
+    @GetMapping("/random-available/floor/{floor}")
+    fun getRandomParkingSpotByFloor(
+        @PathVariable floor: Int
+    ): ParkingSpot {
+        return parkingSpotService.findEmptyParkingSpotByFloor(floor)
+    }
+
 }
