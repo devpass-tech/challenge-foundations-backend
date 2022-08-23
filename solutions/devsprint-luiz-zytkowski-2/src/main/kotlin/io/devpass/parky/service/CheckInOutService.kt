@@ -8,6 +8,7 @@ class CheckInOutService(
     private val parkingSpotMovementService: ParkingSpotMovementService,
     private val vehicleService: VehicleService,
     private val parkingSpotService: ParkingSpotService,
+    private val availableParkingSpotNotificationService: AvailableParkingSpotNotificationService,
 ) {
     fun removeCheckIn(parkingSpotId: Int) {
         val parkingSpot = parkingSpotService.findById(parkingSpotId)
@@ -25,5 +26,6 @@ class CheckInOutService(
 
         parkingSpot.inUseBy = null
         parkingSpotService.update(parkingSpot)
+        availableParkingSpotNotificationService.checkOutNotification(parkingSpotId)
     }
 }
