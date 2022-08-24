@@ -1,6 +1,7 @@
 package io.devpass.parky.service
 
 import io.devpass.parky.entity.AvailableParkingSpotNotification
+import io.devpass.parky.exceptions.NotificationException
 import io.devpass.parky.repository.AvailableParkingSpotNotificationRepository
 import io.devpass.parky.requests.AvailableParkingSpotNotificationRequest
 import org.springframework.stereotype.Service
@@ -18,7 +19,7 @@ class AvailableParkingSpotNotificationService(
         )
 
         if (notificationCreated.isNotEmpty()) {
-            println("Already exists a notification appointed.")
+            throw NotificationException("Already exists a notification appointed.")
         } else {
             availableParkingSpotNotificationRepository.save(
                 AvailableParkingSpotNotification(
