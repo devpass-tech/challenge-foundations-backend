@@ -12,6 +12,7 @@ class CheckInOutService(
     private val vehicleService: VehicleService,
     private val parkingSpotService: ParkingSpotService,
     private val availableParkingSpotNotificationService: AvailableParkingSpotNotificationService,
+    private val emailService: EmailService,
 ) {
     fun createCheckIn(checkInRequest: CheckInRequest) {
         val parkingSpot = parkingSpotService.findById(checkInRequest.parkingSpotId)
@@ -55,5 +56,10 @@ class CheckInOutService(
         parkingSpot.inUseBy = null
         parkingSpotService.update(parkingSpot)
         availableParkingSpotNotificationService.checkOutNotification(parkingSpotId)
+
+        emailService.sendEmail(
+            availableParkingSpotNotificationService.findEmailsNotificationsfromParkingSpot(parkingSpotId),
+            parkingSpotService.findById(parkingSpotId)
+        )
     }
 }

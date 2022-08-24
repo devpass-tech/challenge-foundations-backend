@@ -1,7 +1,6 @@
 package io.devpass.parky.service
 
 import io.devpass.parky.entity.AvailableParkingSpotNotification
-import io.devpass.parky.framework.OwnedException
 import io.devpass.parky.repository.AvailableParkingSpotNotificationRepository
 import org.springframework.stereotype.Service
 
@@ -21,6 +20,9 @@ class AvailableParkingSpotNotificationService(
             deleteNotification(it)
         }
     }
+
+    fun findEmailsNotificationsfromParkingSpot(parkingSpotId: Int): List<String> =
+        availableParkingSpotNotificationRepository.findByParkingSpotId(parkingSpotId).map { it.email }
 
     fun deleteNotification(availableParkingSpotNotification: AvailableParkingSpotNotification) {
         availableParkingSpotNotificationRepository.delete(availableParkingSpotNotification)
