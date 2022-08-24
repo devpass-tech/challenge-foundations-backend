@@ -13,7 +13,7 @@ class AdminController(
     private val checkInOutService: CheckInOutService
 ) {
     @PostMapping
-    fun cleanAllParkingSpots(): HttpStatus {
+    fun freeAllParkingSpots(): HttpStatus {
         checkInOutService.cleanAllParkingSpots()
         return HttpStatus.OK
     }

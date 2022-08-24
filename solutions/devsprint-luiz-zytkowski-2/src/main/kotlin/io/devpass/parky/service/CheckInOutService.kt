@@ -75,6 +75,7 @@ class CheckInOutService(
         parkingSpot.inUseBy = null
         parkingSpotService.update(parkingSpot)
     }
+
     fun cleanAllParkingSpots() {
         val listOfParkingSpots = parkingSpotService.findAll()
         listOfParkingSpots.forEach()
