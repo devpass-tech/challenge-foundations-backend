@@ -13,4 +13,8 @@ class VehicleService(
             if (it.isPresent) it.get() else null
         }
     }
+
+    fun create(vehicle: Vehicle): Vehicle {
+        return vehicleRepository.save(vehicle)
+    }
 }

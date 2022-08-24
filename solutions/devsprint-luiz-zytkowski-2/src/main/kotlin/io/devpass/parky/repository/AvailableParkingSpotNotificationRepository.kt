@@ -10,4 +10,8 @@ interface AvailableParkingSpotNotificationRepository : CrudRepository<AvailableP
 
     @Query("select apsn from AvailableParkingSpotNotification apsn where apsn.parkingSpotId = ?1 and apsn.email = ?2")
     fun findEmailAndParkingSpotId(parkingSpotId: Int, email: String): List<AvailableParkingSpotNotification>
+
+    @Query("SELECT apsn from AvailableParkingSpotNotification apsn where apsn.parkingSpotId = ?1")
+    fun findByParkingSpotId(parkingSpotId: Int): List<AvailableParkingSpotNotification>
+
 }

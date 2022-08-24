@@ -29,4 +29,22 @@ class AvailableParkingSpotNotificationService(
             )
         }
     }
+
+    fun checkOutNotification(parkingSpotId: Int) {
+        val availableParkingSpotNotification =
+            availableParkingSpotNotificationRepository.findByParkingSpotId(parkingSpotId).ifEmpty {
+                println("Nenhuma pessoa precisou ser notificada")
+                return
+            }
+        availableParkingSpotNotification.forEach {
+            println("O email é ${it.email}")
+            println("A vaga ${it.parkingSpotId} está disponível!")
+            deleteNotification(it)
+        }
+    }
+
+    fun deleteNotification(availableParkingSpotNotification: AvailableParkingSpotNotification) {
+        availableParkingSpotNotificationRepository.delete(availableParkingSpotNotification)
+    }
+
 }
