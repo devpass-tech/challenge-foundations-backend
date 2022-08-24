@@ -6,7 +6,8 @@ import org.springframework.stereotype.Service
 
 @Service
 class ParkingSpotService(
-    private val parkingSpotRepository: ParkingSpotRepository,
+        private val parkingSpotRepository: ParkingSpotRepository,
+        private val checkInOutService: CheckInOutService
 ) {
 
     fun findAll(): List<ParkingSpot> {
@@ -26,8 +27,33 @@ class ParkingSpotService(
     fun findEmptyParkingSpotByFloor(floor: Int): ParkingSpot {
         return parkingSpotRepository.getParkingSpotByFloor(floor).random()
     }
-    
+
     fun update(parkingSpot: ParkingSpot): ParkingSpot {
         return parkingSpotRepository.save(parkingSpot)
     }
+
+    fun cleanAllParkingSpots() {
+        val listOfParkingSpots = this.findAll()
+        listOfParkingSpots.forEach()
+        {
+            if (it.inUseBy == null) {
+                println("Não precisei limpar a vaga  pois não estava em uso")
+                return@forEach
+            } else {
+                checkInOutService.checkOutFromAdmin(it.id)
+            }
+            println(it.toString())
+        }
+    }
+
+    fun checkStatusOfParkingSpots(): Boolean {
+        val listOfParkingSpots = this.findAll()
+        listOfParkingSpots.forEach() {
+            if (it.inUseBy !== null) {
+                return false
+            }
+        }
+        return true
+    }
 }
+
