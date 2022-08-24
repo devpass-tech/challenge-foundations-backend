@@ -34,7 +34,8 @@ class CheckInOutService(
 
         val parkingSpotMovement = ParkingSpotMovement(
             parkingSpotId = parkingSpot.id,
-            event = "Check-in realizado pelo veículo: ${vehicle}")
+            event = "Check-in realizado pelo veículo: ${vehicle}"
+        )
         parkingSpotMovementService.create(parkingSpotMovement)
     }
 
@@ -55,5 +56,37 @@ class CheckInOutService(
         parkingSpot.inUseBy = null
         parkingSpotService.update(parkingSpot)
         availableParkingSpotNotificationService.checkOutNotification(parkingSpotId)
+    }
+
+    fun checkOutFromAdmin(parkingSpotId: Int) {
+        val parkingSpot = parkingSpotService.findById(parkingSpotId)
+            ?: throw Exception("Vaga não encontrada")
+
+        if (parkingSpot.inUseBy == null) {
+            throw Exception("Vaga livre")
+        }
+
+        val parkingSpotMovement = ParkingSpotMovement(
+            parkingSpotId = parkingSpotId,
+            event = "Check-out realizado pelo administrador: ${parkingSpot.inUseBy}"
+        )
+        parkingSpotMovementService.create(parkingSpotMovement)
+
+        parkingSpot.inUseBy = null
+        parkingSpotService.update(parkingSpot)
+    }
+
+    fun cleanAllParkingSpots() {
+        val listOfParkingSpots = parkingSpotService.findAll()
+        listOfParkingSpots.forEach()
+        {
+            if (it.inUseBy == null) {
+                throw Exception("Não precisei limpar a vaga  pois não estava em uso")
+                return@forEach
+            } else {
+                checkOutFromAdmin(it.id)
+            }
+            throw Exception("Vagas liberadas com sucesso")
+        }
     }
 }
