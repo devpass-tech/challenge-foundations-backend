@@ -25,6 +25,10 @@ dependencies {
 	implementation("org.springframework.boot:spring-boot-starter-web")
 	implementation("com.fasterxml.jackson.module:jackson-module-kotlin")
 
+	// HTTP
+	implementation("com.github.kittinunf.fuel:fuel:2.3.1")
+	implementation("com.github.kittinunf.fuel:fuel-jackson:2.3.1")
+
 	// Database
 	implementation("mysql:mysql-connector-java")
 	implementation("org.flywaydb:flyway-core:7.15.0")
