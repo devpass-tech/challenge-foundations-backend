@@ -21,20 +21,20 @@ class ParkingSpotService(
     }
 
     fun findEmptyParkingSpotAtRandom(): ParkingSpot {
-        val parkingSpotListIsEmpty = parkingSpotRepository.getRandomEmptyParkingSpot().isEmpty()
-        if (parkingSpotListIsEmpty) {
+        val listOfParkingSpot= parkingSpotRepository.getRandomEmptyParkingSpot()
+        if (listOfParkingSpot.isEmpty()) {
             throw EmptyListException("No parking spot available!")
         } else {
-            return parkingSpotRepository.getRandomEmptyParkingSpot().random()
+            return listOfParkingSpot.random()
         }
     }
 
     fun findEmptyParkingSpotByFloor(floor: Int): ParkingSpot {
-        val parkingSpotByFloorIsEmpty: Boolean = parkingSpotRepository.getParkingSpotByFloor(floor).isEmpty()
-        if (parkingSpotByFloorIsEmpty) {
+        val listOfParkingSpot= parkingSpotRepository.getParkingSpotByFloor(floor)
+        if (listOfParkingSpot.isEmpty()) {
             throw EmptyListException("No parking spot available!")
         } else {
-            return parkingSpotRepository.getParkingSpotByFloor(floor).random()
+            return listOfParkingSpot.random()
         }
     }
 
