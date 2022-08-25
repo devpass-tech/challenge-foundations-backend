@@ -5,6 +5,8 @@ import io.devpass.parky.entity.ParkingSpotMovement
 import io.devpass.parky.entity.Vehicle
 import io.devpass.parky.framework.OwnedException
 import io.devpass.parky.requests.CheckInRequest
+import io.devpass.parky.service.exceptions.CheckInException
+import io.devpass.parky.service.exceptions.CheckOutException
 import org.springframework.stereotype.Service
 
 @Service
@@ -16,10 +18,10 @@ class CheckInOutService(
 ) {
     fun createCheckIn(checkInRequest: CheckInRequest) {
         val parkingSpot = parkingSpotService.findById(checkInRequest.parkingSpotId)
-            ?: throw OwnedException("Vaga não encontrada")
+            ?: throw CheckInException("Vaga não encontrada")
 
         if (parkingSpot.inUseBy != null) {
-            throw OwnedException("Vaga ocupada pelo veículo de id: ${parkingSpot.inUseBy}")
+            throw CheckInException("Vaga ocupada pelo veículo de id: ${parkingSpot.inUseBy}")
         }
 
         val vehicle = vehicleService.create(
@@ -40,12 +42,12 @@ class CheckInOutService(
         parkingSpotMovementService.create(parkingSpotMovement)
     }
 
-    fun removeCheckIn(parkingSpotId: Int) {
+    fun checkOut(parkingSpotId: Int) {
         val parkingSpot = parkingSpotService.findById(parkingSpotId)
-            ?: throw Exception("Vaga não encontrada")
+            ?: throw CheckOutException("Vaga não encontrada")
 
         if (parkingSpot.inUseBy == null) {
-            throw Exception("Vaga livre")
+            throw CheckOutException("Vaga livre")
         }
 
         val parkingSpotMovement = ParkingSpotMovement(
