@@ -1,6 +1,7 @@
 package io.devpass.parky.service
 
 import io.devpass.parky.entity.ParkingSpot
+import io.devpass.parky.exceptions.EmptyListException
 import io.devpass.parky.repository.ParkingSpotRepository
 import org.springframework.stereotype.Service
 
@@ -20,11 +21,21 @@ class ParkingSpotService(
     }
 
     fun findEmptyParkingSpotAtRandom(): ParkingSpot {
-        return parkingSpotRepository.getRandomEmptyParkingSpot().random()
+        val listOfParkingSpot= parkingSpotRepository.getRandomEmptyParkingSpot()
+        if (listOfParkingSpot.isEmpty()) {
+            throw EmptyListException("No parking spot available!")
+        } else {
+            return listOfParkingSpot.random()
+        }
     }
 
     fun findEmptyParkingSpotByFloor(floor: Int): ParkingSpot {
-        return parkingSpotRepository.getParkingSpotByFloor(floor).random()
+        val listOfParkingSpot= parkingSpotRepository.getParkingSpotByFloor(floor)
+        if (listOfParkingSpot.isEmpty()) {
+            throw EmptyListException("No parking spot available!")
+        } else {
+            return listOfParkingSpot.random()
+        }
     }
 
     fun update(parkingSpot: ParkingSpot): ParkingSpot {
