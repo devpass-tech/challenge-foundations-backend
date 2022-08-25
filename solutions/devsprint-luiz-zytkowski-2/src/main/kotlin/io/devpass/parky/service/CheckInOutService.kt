@@ -56,7 +56,7 @@ class CheckInOutService(
 
         parkingSpot.inUseBy = null
         parkingSpotService.update(parkingSpot)
-        availableParkingSpotNotificationService.checkOutNotification(parkingSpotId)
+        availableParkingSpotNotificationService.checkOutNotification(parkingSpot)
     }
 
     fun checkOutFromAdmin(parkingSpot: ParkingSpot) {
