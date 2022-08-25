@@ -26,7 +26,7 @@ class ParkingSpotService(
     fun findEmptyParkingSpotByFloor(floor: Int): ParkingSpot {
         return parkingSpotRepository.getParkingSpotByFloor(floor).random()
     }
-    
+
     fun update(parkingSpot: ParkingSpot): ParkingSpot {
         return parkingSpotRepository.save(parkingSpot)
     }
