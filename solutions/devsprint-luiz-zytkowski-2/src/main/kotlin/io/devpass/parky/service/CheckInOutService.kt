@@ -1,5 +1,6 @@
 package io.devpass.parky.service
 
+import io.devpass.parky.entity.ParkingSpot
 import io.devpass.parky.entity.ParkingSpotMovement
 import io.devpass.parky.entity.Vehicle
 import io.devpass.parky.framework.OwnedException
@@ -58,16 +59,9 @@ class CheckInOutService(
         availableParkingSpotNotificationService.checkOutNotification(parkingSpotId)
     }
 
-    fun checkOutFromAdmin(parkingSpotId: Int) {
-        val parkingSpot = parkingSpotService.findById(parkingSpotId)
-            ?: throw Exception("Vaga não encontrada")
-
-        if (parkingSpot.inUseBy == null) {
-            throw Exception("Vaga livre")
-        }
-
+    fun checkOutFromAdmin(parkingSpot: ParkingSpot) {
         val parkingSpotMovement = ParkingSpotMovement(
-            parkingSpotId = parkingSpotId,
+            parkingSpotId = parkingSpot.id,
             event = "Check-out realizado pelo administrador: ${parkingSpot.inUseBy}"
         )
         parkingSpotMovementService.create(parkingSpotMovement)
@@ -78,15 +72,13 @@ class CheckInOutService(
 
     fun cleanAllParkingSpots() {
         val listOfParkingSpots = parkingSpotService.findAll()
-        listOfParkingSpots.forEach()
-        {
+        listOfParkingSpots.forEach{
             if (it.inUseBy == null) {
-                throw Exception("Não precisei limpar a vaga  pois não estava em uso")
-                return@forEach
+                println("Não precisei limpar a vaga  pois não estava em uso")
             } else {
-                checkOutFromAdmin(it.id)
+                checkOutFromAdmin(it)
             }
-            throw Exception("Vagas liberadas com sucesso")
         }
+        println("Vagas liberadas com sucesso")
     }
 }

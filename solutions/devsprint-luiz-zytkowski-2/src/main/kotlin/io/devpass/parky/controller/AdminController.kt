@@ -7,12 +7,11 @@ import org.springframework.web.bind.annotation.RequestMapping
 import org.springframework.web.bind.annotation.RestController
 
 @RestController
-@RequestMapping("/admin/free-all-parking-spots")
-
+@RequestMapping("/admin")
 class AdminController(
     private val checkInOutService: CheckInOutService
 ) {
-    @PostMapping
+    @PostMapping("/free-all-parking-spots")
     fun freeAllParkingSpots(): HttpStatus {
         checkInOutService.cleanAllParkingSpots()
         return HttpStatus.OK
