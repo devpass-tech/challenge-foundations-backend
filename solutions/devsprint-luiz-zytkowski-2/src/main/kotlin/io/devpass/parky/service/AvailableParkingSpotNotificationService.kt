@@ -1,6 +1,7 @@
 package io.devpass.parky.service
 
 import io.devpass.parky.entity.AvailableParkingSpotNotification
+import io.devpass.parky.entity.ParkingSpot
 import io.devpass.parky.exceptions.NotificationException
 import io.devpass.parky.repository.AvailableParkingSpotNotificationRepository
 import io.devpass.parky.requests.AvailableParkingSpotNotificationRequest
@@ -9,6 +10,7 @@ import org.springframework.stereotype.Service
 @Service
 class AvailableParkingSpotNotificationService(
     private val availableParkingSpotNotificationRepository: AvailableParkingSpotNotificationRepository,
+    private val emailService: EmailService,
 ) {
 
     fun createNotification(availableParkingSpotNotificationRequest: AvailableParkingSpotNotificationRequest) {
@@ -30,21 +32,25 @@ class AvailableParkingSpotNotificationService(
         }
     }
 
-    fun checkOutNotification(parkingSpotId: Int) {
+    fun checkOutNotification(parkingSpot: ParkingSpot) {
         val availableParkingSpotNotification =
-            availableParkingSpotNotificationRepository.findByParkingSpotId(parkingSpotId).ifEmpty {
+            availableParkingSpotNotificationRepository.findByParkingSpotId(parkingSpot.id).ifEmpty {
                 println("Nenhuma pessoa precisou ser notificada")
                 return
             }
-        availableParkingSpotNotification.forEach {
-            println("O email é ${it.email}")
-            println("A vaga ${it.parkingSpotId} está disponível!")
-            deleteNotification(it)
-        }
+
+        emailService.sendEmail(
+            findEmailsNotificationsByParkingSpotId(parkingSpot.id),
+            parkingSpot
+        )
+
+        availableParkingSpotNotification.forEach { deleteNotification(it) }
     }
+
+    fun findEmailsNotificationsByParkingSpotId(parkingSpotId: Int): List<String> =
+        availableParkingSpotNotificationRepository.findByParkingSpotId(parkingSpotId).map { it.email }
 
     fun deleteNotification(availableParkingSpotNotification: AvailableParkingSpotNotification) {
         availableParkingSpotNotificationRepository.delete(availableParkingSpotNotification)
     }
-
 }
