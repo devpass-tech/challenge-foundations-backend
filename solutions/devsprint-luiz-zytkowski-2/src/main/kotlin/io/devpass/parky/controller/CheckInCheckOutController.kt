@@ -27,8 +27,8 @@ class CheckInCheckOutController(
     }
 
     @DeleteMapping("/{parkingSpotId}")
-    fun deleteCheckIn(@PathVariable parkingSpotId: Int): HttpStatus {
-        checkInOutService.removeCheckIn(parkingSpotId)
+    fun checkOut(@PathVariable parkingSpotId: Int): HttpStatus {
+        checkInOutService.checkOut(parkingSpotId)
         return HttpStatus.OK
     }
 }
