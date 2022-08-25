@@ -8,6 +8,11 @@ import kotlin.concurrent.thread
 class EmailService(
 ) {
     fun sendEmail(emailList: List<String>, parkingSpot: ParkingSpot) {
+        emailList.ifEmpty {
+            println("Serviço de e-mail está funcionando, porém a lista de endereços está vazia")
+            return
+        }
+
         thread {
             Thread.sleep(2_500)
 
@@ -16,6 +21,5 @@ class EmailService(
                 println("Vaga $parkingSpot liberada")
             }
         }
-
     }
 }
