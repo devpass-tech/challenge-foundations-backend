@@ -7,7 +7,7 @@ data class ParkSpotEvent(
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "id", nullable = false)
-    val id: Int,
+    val id: Int = 0,
 
     @Column(name = "parking_spot_id", nullable = false)
     val parkSpotId: Int,
