@@ -5,14 +5,14 @@ import java.time.LocalDateTime
 import javax.persistence.*
 
 @Entity
-data class ParkSpotEvent(
+data class ParkingSpotEvent(
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "id", nullable = false)
     var id: Int = 0,
 
     @Column(name = "parking_spot_id", nullable = false)
-    var parkSpotId: Int,
+    var parkingSpotId: Int,
 
     @Column(name = "event", nullable = false)
     var event: String,
