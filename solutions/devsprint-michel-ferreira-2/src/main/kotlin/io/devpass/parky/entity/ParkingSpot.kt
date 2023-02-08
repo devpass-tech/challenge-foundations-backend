@@ -1,14 +1,14 @@
 package io.devpass.parky.entity
 
-import javax.persistence.Column
-import javax.persistence.Entity
-import javax.persistence.Id
+import javax.persistence.*
 
 @Entity
 data class ParkingSpot(
     @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "id", nullable = false)
-    var id: Int,
+    val id: Int = 0,
     var spot: Int,
+    @Column(name = "in_use_by")
     var inUseBy: Int?
 )
