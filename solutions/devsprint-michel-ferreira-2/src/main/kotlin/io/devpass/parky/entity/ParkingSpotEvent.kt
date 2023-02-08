@@ -20,5 +20,5 @@ data class ParkingSpotEvent(
 
     @CreationTimestamp
     @Column(name = "created_at", nullable = false)
-    val createdAt: LocalDateTime? = null
+    var createdAt: LocalDateTime
 )
