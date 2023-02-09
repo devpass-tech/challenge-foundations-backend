@@ -1,7 +1,6 @@
 package io.devpass.parky.entity
 
 import org.hibernate.annotations.CreationTimestamp
-import org.springframework.data.repository.CrudRepository
 import java.time.LocalDateTime
 import javax.persistence.*
 
