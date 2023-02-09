@@ -4,6 +4,7 @@ import io.devpass.parky.entity.Vehicle
 import io.devpass.parky.service.ParkingSpotEventService
 import io.devpass.parky.service.ParkingSpotService
 import org.springframework.web.bind.annotation.GetMapping
+import org.springframework.web.bind.annotation.PathVariable
 import org.springframework.web.bind.annotation.RequestMapping
 import org.springframework.web.bind.annotation.RestController
 
@@ -20,6 +21,8 @@ class TestController(
         Vehicle(1, "Honda", "Branco", "Michel")
     )
 
-
-
+    @GetMapping("/spot-by-id/{id}")
+    fun getParkingSpotById(
+        @PathVariable id: Int
+    ) = parkingSpotService.findById(id)
 }
