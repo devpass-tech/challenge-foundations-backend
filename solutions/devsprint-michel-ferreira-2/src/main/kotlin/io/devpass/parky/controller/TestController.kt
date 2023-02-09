@@ -11,6 +11,7 @@ import org.springframework.web.bind.annotation.GetMapping
 import org.springframework.web.bind.annotation.PathVariable
 import org.springframework.web.bind.annotation.PostMapping
 import org.springframework.web.bind.annotation.RequestBody
+import org.springframework.web.bind.annotation.PathVariable
 import org.springframework.web.bind.annotation.RequestMapping
 import org.springframework.web.bind.annotation.ResponseStatus
 import org.springframework.web.bind.annotation.RestController
@@ -23,6 +24,7 @@ class TestController(
     private val parkingSpotService: ParkingSpotService,
     private val vehicleService: VehicleService
 ) {
+
     @GetMapping("/all-vehicles")
     fun getAllVehicles(): List<Vehicle> {
         return listOf<Vehicle>(
@@ -30,6 +32,10 @@ class TestController(
         )
     }
 
+    @GetMapping("/spot-by-id/{id}")
+    fun getParkingSpotById(
+        @PathVariable id: Int
+    ) = parkingSpotService.findById(id)
     @GetMapping("/vehicles/{id}")
     @ResponseStatus(HttpStatus.OK)
     fun findVehiclesById(@PathVariable id: String): Vehicle? {
