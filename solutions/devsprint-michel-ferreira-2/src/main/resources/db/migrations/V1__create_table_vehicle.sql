@@ -1,5 +1,5 @@
 CREATE TABLE vehicle (
-    id varchar(36) PRIMARY KEY,
+    id varchar(32) PRIMARY KEY,
     brand varchar(255) NOT NULL,
     color varchar(255) NOT NULL,
     owner varchar(255) NOT NULL,
