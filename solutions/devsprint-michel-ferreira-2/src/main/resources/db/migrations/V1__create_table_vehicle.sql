@@ -3,5 +3,6 @@ CREATE TABLE vehicle (
     brand varchar(255) NOT NULL,
     color varchar(255) NOT NULL,
     owner varchar(255) NOT NULL,
-    created_at TIMESTAMP NOT NULL
+    created_at TIMESTAMP NOT NULL,
+    plate varchar(255) NOT NULL
 );
