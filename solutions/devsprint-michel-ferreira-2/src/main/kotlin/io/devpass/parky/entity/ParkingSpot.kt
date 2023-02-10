@@ -8,7 +8,10 @@ data class ParkingSpot(
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "id", nullable = false)
     val id: Int = 0,
-    var spot: Int,
     @Column(name = "in_use_by")
-    var inUseBy: Int?
+    var inUseBy: String?,
+    @Column(unique = true)
+    var spot: Int,
+    @Column(unique = true)
+    var floor: String
 )
