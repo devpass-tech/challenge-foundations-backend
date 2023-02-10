@@ -27,7 +27,11 @@ class CheckInOutService(
         val freeSpot = parkingSpotRepository.findByFloorAndSpot(
             floor = checkInRequest.spotCheckIn.floor,
             spot = checkInRequest.spotCheckIn.spot
-        ).also { if (it.inUseBy != null) throw throw CheckInException("Parking spot is not available") }
+        )
+
+        // Validacao
+        if (freeSpot == null) throw CheckInException("Free Spot not Found")
+        if (freeSpot.inUseBy != null) throw CheckInException("Parking spot is not available")
 
         freeSpot.inUseBy = vehicle.id
         parkingSpotRepository.save(freeSpot)

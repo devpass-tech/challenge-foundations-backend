@@ -13,10 +13,9 @@ data class Vehicle(
     var brand: String,
     var color: String,
     var owner: String,
-    @Column(name = "license_plate", nullable = false)
+    @Column(name = "license_plate", nullable = false, unique = true)
     var licensePlate: String,
     @CreationTimestamp
     @Column(name = "created_at", nullable = false)
-    val createdAt: LocalDateTime? = LocalDateTime.now(),
-    val plate: String
+    val createdAt: LocalDateTime? = LocalDateTime.now()
 )

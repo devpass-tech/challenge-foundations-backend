@@ -67,6 +67,7 @@ class TestController(
     @ResponseStatus(HttpStatus.CREATED)
     fun checkIn(@RequestBody request: CheckInRequest) {
         checkInOutService.checkIn(request)
+    }
 
 
     @GetMapping("/all-parking-spot")
