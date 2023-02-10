@@ -2,7 +2,9 @@ package io.devpass.parky.controller
 
 import io.devpass.parky.controller.request.VehicleRequest
 import io.devpass.parky.entity.Vehicle
-import io.devpass.parky.framework.presentOrNull
+import io.devpass.parky.framework.getOrNull
+import io.devpass.parky.requests.CheckInRequest
+import io.devpass.parky.service.CheckInOutService
 import io.devpass.parky.service.ParkingSpotEventService
 import io.devpass.parky.service.ParkingSpotService
 import io.devpass.parky.service.VehicleService
@@ -19,7 +21,7 @@ import java.util.*
 @RestController
 @RequestMapping("/tests")
 class TestController(
-    private val parkingSpotEventService: ParkingSpotEventService,
+    private val checkInOutService: CheckInOutService,
     private val parkingSpotService: ParkingSpotService,
     private val vehicleService: VehicleService
 ) {
@@ -27,7 +29,7 @@ class TestController(
     @GetMapping("/all-vehicles")
     fun getAllVehicles(): List<Vehicle> {
         return listOf<Vehicle>(
-            Vehicle(UUID.randomUUID().toString(), "Honda", "Branco", "Michel")
+            Vehicle(UUID.randomUUID().toString(), "Honda", "Branco", "Michel", "PWL-7717")
         )
     }
 
@@ -38,7 +40,7 @@ class TestController(
     @GetMapping("/vehicles/{id}")
     @ResponseStatus(HttpStatus.OK)
     fun findVehiclesById(@PathVariable id: String): Vehicle? {
-        return vehicleService.findById(id).presentOrNull()
+        return vehicleService.findById(id).getOrNull()
     }
 
     @GetMapping("/vehicles")
@@ -55,7 +57,13 @@ class TestController(
             brand = request.brand,
             color = request.color,
             owner = request.owner,
+            licensePlate = request.licensePlate
         )
         vehicleService.create(vehicle)
+    }
+    @PostMapping("/check-in")
+    @ResponseStatus(HttpStatus.CREATED)
+    fun checkIn(@RequestBody request: CheckInRequest) {
+        checkInOutService.checkIn(request)
     }
 }

@@ -7,5 +7,7 @@ import org.springframework.stereotype.Service
 class ParkingSpotEventService(
     private val parkingSpotEventRepository: ParkingSpotEventRepository
 ) {
+     fun doCheckIn() {
 
+     }
 }
