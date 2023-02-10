@@ -11,7 +11,7 @@ class VehicleService(
 ) {
 
     fun findAll(): List<Vehicle> {
-        return vehicleRepository.findAll() as List<Vehicle>
+        return vehicleRepository.findAll().toList()
     }
 
     fun findById(vehicleId: String): Optional<Vehicle> {

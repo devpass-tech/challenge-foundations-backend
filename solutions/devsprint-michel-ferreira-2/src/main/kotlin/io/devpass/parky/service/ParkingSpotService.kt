@@ -5,7 +5,7 @@ import io.devpass.parky.entity.Vehicle
 import io.devpass.parky.framework.getOrNull
 import io.devpass.parky.repository.ParkingSpotRepository
 import org.springframework.stereotype.Service
-@Suppress("UNCHECKED_CAST")
+
 @Service
 class ParkingSpotService(
     private val parkingSpotRepository: ParkingSpotRepository
@@ -15,6 +15,6 @@ class ParkingSpotService(
     }
 
     fun findAllParkingSpot(): List<ParkingSpot> {
-        return parkingSpotRepository.findAll() as List<ParkingSpot>
+        return parkingSpotRepository.findAll().toList()
     }
 }
