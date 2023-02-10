@@ -1,6 +1,7 @@
 package io.devpass.parky.controller
 
 import io.devpass.parky.controller.request.VehicleRequest
+import io.devpass.parky.entity.ParkingSpot
 import io.devpass.parky.entity.Vehicle
 import io.devpass.parky.framework.presentOrNull
 import io.devpass.parky.service.ParkingSpotEventService
@@ -57,5 +58,11 @@ class TestController(
             owner = request.owner,
         )
         vehicleService.create(vehicle)
+    }
+
+    @GetMapping("/all-parking-spot")
+    @ResponseStatus(HttpStatus.OK)
+    fun getAllParkingSpot(): List<ParkingSpot> {
+        return parkingSpotService.findAllParkingSpot()
     }
 }
