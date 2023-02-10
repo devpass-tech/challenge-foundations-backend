@@ -13,5 +13,5 @@ data class ParkingSpot(
     @Column(unique = true)
     var spot: Int,
     @Column(unique = true)
-    var floor: String
+    var floor: Int
 )
