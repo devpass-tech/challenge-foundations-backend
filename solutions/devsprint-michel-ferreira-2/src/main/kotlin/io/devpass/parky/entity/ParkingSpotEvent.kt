@@ -19,5 +19,5 @@ data class ParkingSpotEvent(
 
     @CreationTimestamp
     @Column(name = "created_at", nullable = false)
-    var createdAt: LocalDateTime
+    var createdAt: LocalDateTime? = LocalDateTime.now()
 )

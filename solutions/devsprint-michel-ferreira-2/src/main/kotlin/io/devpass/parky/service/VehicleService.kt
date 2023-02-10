@@ -18,8 +18,20 @@ class VehicleService(
         return vehicleRepository.findById(vehicleId)
     }
 
+    fun create(vehicle: Vehicle): Vehicle {
+        return vehicleRepository.save(vehicle)
+    }
 
-    fun create(vehicle: Vehicle) {
-        vehicleRepository.save(vehicle)
+    fun createIfNotExists(vehicle: Vehicle): Vehicle {
+        vehicleRepository.findByLicensePlate(vehicle.licensePlate)?.let { return it }
+
+        return create(
+            Vehicle(
+                licensePlate = vehicle.licensePlate,
+                brand = vehicle.brand,
+                color = vehicle.color,
+                owner = vehicle.owner
+            )
+        )
     }
 }

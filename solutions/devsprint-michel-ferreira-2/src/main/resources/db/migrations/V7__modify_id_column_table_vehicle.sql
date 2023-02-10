@@ -1,0 +1,1 @@
+ALTER TABLE vehicle MODIFY COLUMN id varchar(36) NOT NULL;
