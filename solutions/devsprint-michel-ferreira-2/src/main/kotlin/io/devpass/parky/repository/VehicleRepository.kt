@@ -5,4 +5,6 @@ import org.springframework.data.repository.CrudRepository
 import org.springframework.stereotype.Repository
 
 @Repository
-interface VehicleRepository : CrudRepository<Vehicle, String>
+interface VehicleRepository : CrudRepository<Vehicle, String> {
+    fun findByLicensePlate(licensePlate: String): Vehicle?
+}
