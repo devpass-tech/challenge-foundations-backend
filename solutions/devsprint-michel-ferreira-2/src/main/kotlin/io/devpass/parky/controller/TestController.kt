@@ -1,6 +1,7 @@
 package io.devpass.parky.controller
 
 import io.devpass.parky.controller.request.VehicleRequest
+import io.devpass.parky.entity.ParkingSpot
 import io.devpass.parky.entity.Vehicle
 import io.devpass.parky.framework.getOrNull
 import io.devpass.parky.requests.CheckInRequest
@@ -61,9 +62,16 @@ class TestController(
         )
         vehicleService.create(vehicle)
     }
+
     @PostMapping("/check-in")
     @ResponseStatus(HttpStatus.CREATED)
     fun checkIn(@RequestBody request: CheckInRequest) {
         checkInOutService.checkIn(request)
+
+
+    @GetMapping("/all-parking-spot")
+    @ResponseStatus(HttpStatus.OK)
+    fun getAllParkingSpot(): List<ParkingSpot> {
+        return parkingSpotService.findAllParkingSpot()
     }
 }
