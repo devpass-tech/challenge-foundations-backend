@@ -8,4 +8,6 @@ import org.springframework.stereotype.Repository
 @Repository
 interface ParkingSpotRepository : CrudRepository<ParkingSpot, Int> {
     fun findByFloorAndSpot(floor: Int, spot: Int): ParkingSpot?
+    fun findByinUse(inUse: Boolean): List<ParkingSpot>
+
 }

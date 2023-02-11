@@ -17,4 +17,8 @@ class ParkingSpotService(
     fun findAllParkingSpot(): List<ParkingSpot> {
         return parkingSpotRepository.findAll().filter { it.inUseBy == null }.toList()
     }
+
+    fun findParkingSpot(): List<ParkingSpot> {
+        return parkingSpotRepository.findByinUse(false)
+    }
 }
