@@ -1,0 +1,1 @@
+ALTER TABLE parking_spot_event ADD vehicle_id varchar(36) NOT NULL after event;

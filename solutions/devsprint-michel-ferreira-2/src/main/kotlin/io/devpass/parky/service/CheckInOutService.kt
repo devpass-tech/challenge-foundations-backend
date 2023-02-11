@@ -39,7 +39,8 @@ class CheckInOutService(
         parkingSpotEventRepository.save(
             ParkingSpotEvent(
                 parkingSpotId = freeSpot.id,
-                event = "Check-in"
+                event = "Check-in",
+                vehicleId = vehicle.id
             )
         )
     }

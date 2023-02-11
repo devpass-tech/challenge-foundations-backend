@@ -1,6 +1,7 @@
 package io.devpass.parky.service
 
 import io.devpass.parky.entity.Vehicle
+import io.devpass.parky.framework.getOrNull
 import io.devpass.parky.repository.VehicleRepository
 import org.springframework.stereotype.Service
 import java.util.*
@@ -14,8 +15,8 @@ class VehicleService(
         return vehicleRepository.findAll().toList()
     }
 
-    fun findById(vehicleId: String): Optional<Vehicle> {
-        return vehicleRepository.findById(vehicleId)
+    fun findById(vehicleId: String): Vehicle? {
+        return vehicleRepository.findById(vehicleId).getOrNull()
     }
 
     fun create(vehicle: Vehicle) : Vehicle{

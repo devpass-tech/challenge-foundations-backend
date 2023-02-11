@@ -41,7 +41,7 @@ class TestController(
     @GetMapping("/vehicles/{id}")
     @ResponseStatus(HttpStatus.OK)
     fun findVehiclesById(@PathVariable id: String): Vehicle? {
-        return vehicleService.findById(id).getOrNull()
+        return vehicleService.findById(id)
     }
 
     @GetMapping("/vehicles")
