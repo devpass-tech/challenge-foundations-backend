@@ -19,12 +19,6 @@ class VehicleController(
     fun getVehicleById(
         @PathVariable vehicleId: String
     ): ResponseEntity<VehicleEventsResponse> {
-        val vehicle = vehicleService.findById(vehicleId)
-        return if (vehicle != null) {
-            val events = parkingSpotEventService.findByVehicleId(vehicleId)
-            ResponseEntity.ok(VehicleEventsResponse(vehicle = vehicle, history = events))
-        } else {
-            ResponseEntity.notFound().build()
-        }
+        return ResponseEntity.ok(vehicleService.findVehicleAndHistory(vehicleId))
     }
 }
