@@ -8,18 +8,13 @@ import org.springframework.web.bind.annotation.RequestParam
 import org.springframework.web.bind.annotation.RestController
 
 @RestController
-@RequestMapping("/v1")
+@RequestMapping()
 class ParkingSpotController (
     private val parkingSpotService: ParkingSpotService
 ){
-    @GetMapping("/listParkingSpot")
+    @GetMapping("/v1/listParkingSpot")
     fun listParkingSpot(
         @RequestParam( name = "inUse", required = false) emUso: Boolean?): List<ParkingSpot>{
-        val inUse = parkingSpotService.findAllParkingSpot()
-        return if (inUse != null){
-            parkingSpotService.findAllParkingSpot()
-        } else {
-            parkingSpotService.findAllParkingSpot()
-        }
+        return parkingSpotService.listParkingSpotService()
     }
 }

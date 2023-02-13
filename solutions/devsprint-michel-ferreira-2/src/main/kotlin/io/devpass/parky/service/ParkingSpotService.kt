@@ -1,8 +1,6 @@
 package io.devpass.parky.service
 
 import io.devpass.parky.entity.ParkingSpot
-import io.devpass.parky.entity.Vehicle
-import io.devpass.parky.framework.getOrNull
 import io.devpass.parky.repository.ParkingSpotRepository
 import org.springframework.stereotype.Service
 
@@ -10,15 +8,18 @@ import org.springframework.stereotype.Service
 class ParkingSpotService(
     private val parkingSpotRepository: ParkingSpotRepository
 ) {
-    fun findById(id: Int): ParkingSpot? {
-        return parkingSpotRepository.findById(id).getOrNull()
-    }
+    fun listParkingSpotService(): List<ParkingSpot> {
+        val inUseBy = null
+        if (inUseBy != null) {
+            parkingSpotRepository.findAll().toList()
+        } else if (inUseBy == false) {
+            parkingSpotRepository.findByInUse()
+        } else {
+            parkingSpotRepository.findByInUseByIsNull()
+        }
 
-    fun findAllParkingSpot(): List<ParkingSpot> {
-        return parkingSpotRepository.findAll().filter { it.inUseBy == null }.toList()
-    }
-
-    fun findParkingSpot(): List<ParkingSpot> {
-        return parkingSpotRepository.findByinUse(false)
+        return parkingSpotRepository.findByInUseByIsNull()
     }
 }
+
+
