@@ -2,14 +2,14 @@ package io.devpass.parky.requests
 
 import com.fasterxml.jackson.annotation.JsonAlias
 
-data class CheckInRequest(
-    @JsonAlias("vehicle_check_in")
-    val vehicleCheckIn: VehicleCheckIn,
-    @JsonAlias("spot_check_in")
-    val spotCheckIn: SpotCheckIn
+data class CheckOutRequest(
+    @JsonAlias("vehicle_check_out")
+    val vehicleCheckOut: VehicleCheckOut,
+    @JsonAlias("spot_check_out")
+    val spotCheckOut: SpotCheckOut
 )
 
-data class VehicleCheckIn(
+data class VehicleCheckOut(
     @JsonAlias("license_plate")
     var licensePlate: String,
     val brand: String,
@@ -17,7 +17,7 @@ data class VehicleCheckIn(
     val owner: String,
 )
 
-data class SpotCheckIn(
+data class SpotCheckOut(
     val floor: Int,
     val spot: Int,
 )
