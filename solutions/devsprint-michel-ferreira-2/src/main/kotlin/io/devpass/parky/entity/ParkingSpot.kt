@@ -9,6 +9,6 @@ data class ParkingSpot(
     val id: Int = 0,
     var floor: Int,
     var spot: Int,
-    @Column(name = "in_use_by")
+    @Column(name = "in_use_by", unique = true)
     var inUseBy: String?
 )
