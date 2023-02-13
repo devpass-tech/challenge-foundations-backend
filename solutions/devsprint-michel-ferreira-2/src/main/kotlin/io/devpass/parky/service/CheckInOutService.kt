@@ -1,5 +1,6 @@
 package io.devpass.parky.service
 
+import io.devpass.parky.entity.ParkingSpot
 import io.devpass.parky.entity.ParkingSpotEvent
 import io.devpass.parky.entity.Vehicle
 import io.devpass.parky.framework.CheckInException
@@ -50,16 +51,20 @@ class CheckInOutService(
         )
     }
 
-    fun checkOut(checkOutRequest: CheckOutRequest): Boolean {
+    fun checkOut(checkOutRequest: CheckOutRequest) {
         val vehicle = vehicleService.findVehicleLicensePlate(checkOutRequest.vehicleCheckOut.licensePlate)
             ?: throw CheckOutException("Vehicle not Found!")
+
+        if (validateHasFloorAndSpot(checkOutRequest.spotCheckOut.floor, checkOutRequest.spotCheckOut.spot) == null) {
+            throw CheckOutException("Invalid parking spot OR doesn't exist!")
+        }
 
         val parkingSpotCheckOut = parkingSpotRepository.findByFloorAndSpot(
             checkOutRequest.spotCheckOut.floor,
             checkOutRequest.spotCheckOut.spot
         )
 
-        if (parkingSpotIsEmpty(parkingSpotCheckOut!!.inUseBy)) {
+        if (parkingSpotIsEmpty(parkingSpotCheckOut!!.inUseBy) == null) {
             throw CheckOutException("There are no vehicles at this spot")
         }
 
@@ -72,34 +77,21 @@ class CheckInOutService(
         parkingSpotRepository.save(parkingSpotCheckOut)
 
         val parkingSpotEventCheckout = ParkingSpotEvent(
-            id = 0,
             parkingSpotId = parkingSpotCheckOut.id,
             event = "Check-out",
             createdAt = LocalDateTime.now()
         )
 
         parkingSpotEventRepository.save(parkingSpotEventCheckout)
-        return true
     }
 
-    fun parkingSpotIsEmpty(inUseBy : String?): Boolean {
-        if (inUseBy == null) {
-            return true
-        }
-        return false
-    }
+    private fun validateHasFloorAndSpot(floor: Int, spot: Int): ParkingSpot? =
+        parkingSpotRepository.findByFloorAndSpot(floor, spot)
 
-    fun vehicleBelongsToTheSpot(vehicleId: String, inUseBy: String?): Boolean {
-        if (vehicleId == inUseBy) {
-            return true
-        }
-        return false
-    }
+    fun parkingSpotIsEmpty(inUseBy: String?): String? = inUseBy
 
-    fun validateIfCarIsAlreadyParked(inUseBy : String?, vehicleId : String?): Boolean {
-        if (inUseBy == vehicleId) {
-            throw CheckInException("You are already parked in this spot")
-        }
-        return true
-    }
+    fun vehicleBelongsToTheSpot(vehicleId: String, inUseBy: String?): Boolean = (vehicleId == inUseBy)
+
+    fun validateIfCarIsAlreadyParked(inUseBy: String?, vehicleId: String?): Boolean = (inUseBy == vehicleId)
+
 }
