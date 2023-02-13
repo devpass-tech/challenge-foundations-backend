@@ -10,19 +10,18 @@ import java.util.*
 
 @Service
 class VehicleService(
-    private val vehicleRepository: VehicleRepository,
-    private val parkingSpotEventService: ParkingSpotEventService
+    private val vehicleRepository: VehicleRepository
 ) {
 
     fun findAll(): List<Vehicle> {
         return vehicleRepository.findAll().toList()
     }
 
-    fun findById(vehicleId: String): Vehicle? {
-        return vehicleRepository.findById(vehicleId).getOrNull()
+    fun findById(vehicleId: String): Optional<Vehicle> {
+        return vehicleRepository.findById(vehicleId)
     }
 
-    fun create(vehicle: Vehicle): Vehicle {
+    fun create(vehicle: Vehicle) : Vehicle{
         return vehicleRepository.save(vehicle)
     }
 
@@ -36,6 +35,10 @@ class VehicleService(
                 owner = vehicle.owner
             )
         )
+    }
+
+    fun findVehicleLicensePlate(licensePlate : String): Vehicle? {
+        return vehicleRepository.findByLicensePlate(licensePlate)
     }
 
     fun findVehicleAndHistory(vehicleId: String): VehicleEventsResponse {

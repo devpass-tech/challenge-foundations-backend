@@ -5,11 +5,12 @@ import io.devpass.parky.entity.ParkingSpot
 import io.devpass.parky.entity.Vehicle
 import io.devpass.parky.framework.getOrNull
 import io.devpass.parky.requests.CheckInRequest
+import io.devpass.parky.requests.CheckOutRequest
 import io.devpass.parky.service.CheckInOutService
-import io.devpass.parky.service.ParkingSpotEventService
 import io.devpass.parky.service.ParkingSpotService
 import io.devpass.parky.service.VehicleService
 import org.springframework.http.HttpStatus
+import org.springframework.http.ResponseEntity
 import org.springframework.web.bind.annotation.GetMapping
 import org.springframework.web.bind.annotation.PathVariable
 import org.springframework.web.bind.annotation.PostMapping
@@ -38,6 +39,7 @@ class TestController(
     fun getParkingSpotById(
         @PathVariable id: Int
     ) = parkingSpotService.findById(id)
+
     @GetMapping("/vehicles/{id}")
     @ResponseStatus(HttpStatus.OK)
     fun findVehiclesById(@PathVariable id: String): Vehicle? {
@@ -60,6 +62,7 @@ class TestController(
             owner = request.owner,
             licensePlate = request.licensePlate
         )
+
         vehicleService.create(vehicle)
     }
 
@@ -74,5 +77,12 @@ class TestController(
     @ResponseStatus(HttpStatus.OK)
     fun getAllParkingSpot(): List<ParkingSpot> {
         return parkingSpotService.findAllParkingSpot()
+    }
+
+    @PostMapping("/check-out")
+    @ResponseStatus(HttpStatus.CREATED)
+    fun checkOut(@RequestBody request: CheckOutRequest) {
+        checkInOutService.checkOut(request)
+        ResponseEntity.status(HttpStatus.CREATED).body(request)
     }
 }
