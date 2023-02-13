@@ -6,93 +6,249 @@
 	},
 	"item": [
 		{
-			"name": "Vehicles",
+			"name": "Parky",
 			"item": [
 				{
-					"name": "all vehicles #1Test",
-					"request": {
-						"method": "GET",
-						"header": [],
-						"url": {
-							"raw": "localhost:8080/tests/all-vehicles",
-							"host": [
-								"localhost"
-							],
-							"port": "8080",
-							"path": [
-								"tests",
-								"all-vehicles"
-							]
-						}
-					},
-					"response": []
-				},
-				{
-					"name": "all vehicles",
-					"request": {
-						"method": "GET",
-						"header": [],
-						"url": {
-							"raw": "localhost:8080/tests/vehicles",
-							"host": [
-								"localhost"
-							],
-							"port": "8080",
-							"path": [
-								"tests",
-								"vehicles"
-							]
-						}
-					},
-					"response": []
-				},
-				{
-					"name": "by ID",
-					"request": {
-						"method": "GET",
-						"header": [],
-						"url": {
-							"raw": "localhost:8080/tests/vehicles/1",
-							"host": [
-								"localhost"
-							],
-							"port": "8080",
-							"path": [
-								"tests",
-								"vehicles",
-								"1"
-							]
-						}
-					},
-					"response": []
-				},
-				{
-					"name": "createVehicle",
-					"request": {
-						"method": "POST",
-						"header": [],
-						"body": {
-							"mode": "raw",
-							"raw": "{\r\n    \"brand\": \"Toyota\",\r\n    \"color\": \"Preto\",\r\n    \"owner\": \"Wes\"\r\n}",
-							"options": {
-								"raw": {
-									"language": "json"
+					"name": "Vehicles",
+					"item": [
+						{
+							"name": "all vehicles",
+							"request": {
+								"method": "GET",
+								"header": [],
+								"url": {
+									"raw": "localhost:8080/tests/vehicles",
+									"host": [
+										"localhost"
+									],
+									"port": "8080",
+									"path": [
+										"tests",
+										"vehicles"
+									]
 								}
-							}
+							},
+							"response": []
 						},
-						"url": {
-							"raw": "localhost:8080/tests/vehicles",
-							"host": [
-								"localhost"
-							],
-							"port": "8080",
-							"path": [
-								"tests",
-								"vehicles"
-							]
+						{
+							"name": "create vehicle",
+							"request": {
+								"method": "POST",
+								"header": [],
+								"body": {
+									"mode": "raw",
+									"raw": "{\r\n    \"brand\": \"BMW-Z4\",\r\n    \"color\": \"Preto\",\r\n    \"owner\": \"Kaua\",\r\n    \"license_plate\": \"AA-8887\"\r\n}",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "localhost:8080/tests/vehicles",
+									"host": [
+										"localhost"
+									],
+									"port": "8080",
+									"path": [
+										"tests",
+										"vehicles"
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "create vehicle 2",
+							"request": {
+								"method": "POST",
+								"header": [],
+								"body": {
+									"mode": "raw",
+									"raw": "{\r\n    \"brand\": \"Toyota\",\r\n    \"color\": \"Branco\",\r\n    \"owner\": \"Gustavo\",\r\n    \"license_plate\": \"PWL-8887\"\r\n}",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "localhost:8080/tests/vehicles",
+									"host": [
+										"localhost"
+									],
+									"port": "8080",
+									"path": [
+										"tests",
+										"vehicles"
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "vehicle-by-id",
+							"request": {
+								"method": "GET",
+								"header": [],
+								"url": {
+									"raw": "localhost:8080/tests/vehicles/1cae3cda-e8d5-4285-aa7d-926d28b7a9f4",
+									"host": [
+										"localhost"
+									],
+									"port": "8080",
+									"path": [
+										"tests",
+										"vehicles",
+										"1cae3cda-e8d5-4285-aa7d-926d28b7a9f4"
+									]
+								}
+							},
+							"response": []
 						}
-					},
-					"response": []
+					]
+				},
+				{
+					"name": "CheckIn - CheckOut",
+					"item": [
+						{
+							"name": "check in",
+							"request": {
+								"method": "POST",
+								"header": [],
+								"body": {
+									"mode": "raw",
+									"raw": "{\r\n    \"vehicle_check_in\": {\r\n        \"brand\": \"BMW-Z4\",\r\n        \"color\": \"Preto\",\r\n        \"owner\": \"Kaua\",\r\n        \"license_plate\": \"AA-8887\"\r\n    },\r\n    \"spot_check_in\": {\r\n        \"floor\": \"1\",\r\n        \"spot\": \"1\"\r\n    }\r\n}",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "localhost:8080/tests/check-in",
+									"host": [
+										"localhost"
+									],
+									"port": "8080",
+									"path": [
+										"tests",
+										"check-in"
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "check out",
+							"request": {
+								"method": "POST",
+								"header": [],
+								"body": {
+									"mode": "raw",
+									"raw": "{\r\n    \"vehicle_check_out\": {\r\n        \"brand\": \"BMW-Z4\",\r\n        \"color\": \"Preto\",\r\n        \"owner\": \"Kaua\",\r\n        \"license_plate\": \"AA-8887\"\r\n    },\r\n    \"spot_check_out\": {\r\n        \"floor\": \"1\",\r\n        \"spot\": \"1\"\r\n    }\r\n}",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "localhost:8080/tests/check-out",
+									"host": [
+										"localhost"
+									],
+									"port": "8080",
+									"path": [
+										"tests",
+										"check-out"
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "check in 2",
+							"request": {
+								"method": "POST",
+								"header": [],
+								"body": {
+									"mode": "raw",
+									"raw": "{\r\n    \"vehicle_check_in\": {\r\n        \"brand\": \"Toyota\",\r\n        \"color\": \"Branco\",\r\n        \"owner\": \"Gustavo\",\r\n        \"license_plate\": \"PWL-8887\"\r\n    },\r\n    \"spot_check_in\": {\r\n        \"floor\": \"1\",\r\n        \"spot\": \"2\"\r\n    }\r\n}",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "localhost:8080/tests/check-in",
+									"host": [
+										"localhost"
+									],
+									"port": "8080",
+									"path": [
+										"tests",
+										"check-in"
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "check out 2",
+							"request": {
+								"method": "POST",
+								"header": [],
+								"body": {
+									"mode": "raw",
+									"raw": "{\r\n    \"vehicle_check_out\": {\r\n        \"brand\": \"Toyota\",\r\n        \"color\": \"Branco\",\r\n        \"owner\": \"Gustavo\",\r\n        \"license_plate\": \"PWL-8887\"\r\n    },\r\n    \"spot_check_out\": {\r\n        \"floor\": \"1\",\r\n        \"spot\": \"2\"\r\n    }\r\n}",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "localhost:8080/tests/check-out",
+									"host": [
+										"localhost"
+									],
+									"port": "8080",
+									"path": [
+										"tests",
+										"check-out"
+									]
+								}
+							},
+							"response": []
+						}
+					]
+				},
+				{
+					"name": "ParkingSpot",
+					"item": [
+						{
+							"name": "spot-by-id",
+							"request": {
+								"method": "GET",
+								"header": [],
+								"url": {
+									"raw": "localhost:8080/tests/spot-by-id/1",
+									"host": [
+										"localhost"
+									],
+									"port": "8080",
+									"path": [
+										"tests",
+										"spot-by-id",
+										"1"
+									]
+								}
+							},
+							"response": []
+						}
+					]
 				}
 			]
 		}

@@ -1,1 +1,0 @@
-ALTER TABLE parking_spot MODIFY COLUMN in_use_by VARCHAR(36);
