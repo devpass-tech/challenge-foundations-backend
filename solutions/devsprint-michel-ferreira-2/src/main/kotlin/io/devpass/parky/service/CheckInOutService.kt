@@ -9,8 +9,8 @@ import io.devpass.parky.repository.ParkingSpotEventRepository
 import io.devpass.parky.repository.ParkingSpotRepository
 import io.devpass.parky.requests.CheckInRequest
 import io.devpass.parky.requests.CheckOutRequest
+import io.devpass.parky.service.Utils.ValidateCheckoutOut
 import org.springframework.stereotype.Service
-import java.time.LocalDateTime
 
 @Service
 class CheckInOutService(
@@ -53,44 +53,56 @@ class CheckInOutService(
 
     fun checkOut(checkOutRequest: CheckOutRequest) {
         val vehicle = vehicleService.findVehicleLicensePlate(checkOutRequest.vehicleCheckOut.licensePlate)
-            ?: throw CheckOutException("Vehicle not Found!")
-
-        if (validateHasFloorAndSpot(checkOutRequest.spotCheckOut.floor, checkOutRequest.spotCheckOut.spot) == null) {
-            throw CheckOutException("Invalid parking spot OR doesn't exist!")
-        }
+            ?: throw CheckOutException("Vehicle not Found, please Check-in first!")
 
         val parkingSpotCheckOut = parkingSpotRepository.findByFloorAndSpot(
             checkOutRequest.spotCheckOut.floor,
             checkOutRequest.spotCheckOut.spot
         )
+        lateinit var inUseBy: String
 
-        if (parkingSpotIsEmpty(parkingSpotCheckOut!!.inUseBy) == null) {
-            throw CheckOutException("There are no vehicles at this spot")
+        val validatedCheckOutRequest: ValidateCheckoutOut = with(checkOutRequest) {
+            validateParkingSpot(parkingSpotCheckOut)
+
+            validateParkingSpotIsEmpty(parkingSpotCheckOut!!.inUseBy)
+
+            inUseBy = (vehicleBelongsToTheSpot(vehicle.id, parkingSpotCheckOut.inUseBy))
+
+            return@with ValidateCheckoutOut(
+                id = vehicle.id,
+                inUseBy = inUseBy,
+                parkingSpotId = parkingSpotCheckOut.id,
+                floor = parkingSpotCheckOut.floor,
+                spot = parkingSpotCheckOut.spot
+            )
         }
 
-        if (!vehicleBelongsToTheSpot(vehicle.id, parkingSpotCheckOut.inUseBy)) {
-            throw CheckOutException("This Vehicle is located at a different spot, please insert the correct location")
+        if (parkingSpotCheckOut != null) {
+            parkingSpotCheckOut.inUseBy = null
+            parkingSpotRepository.save(parkingSpotCheckOut)
         }
-
-        parkingSpotCheckOut.inUseBy = null
-
-        parkingSpotRepository.save(parkingSpotCheckOut)
 
         val parkingSpotEventCheckout = ParkingSpotEvent(
-            parkingSpotId = parkingSpotCheckOut.id,
-            event = "Check-out",
-            createdAt = LocalDateTime.now()
+            parkingSpotId = validatedCheckOutRequest.parkingSpotId,
+            event = "Check-out"
         )
 
         parkingSpotEventRepository.save(parkingSpotEventCheckout)
     }
 
-    private fun validateHasFloorAndSpot(floor: Int, spot: Int): ParkingSpot? =
-        parkingSpotRepository.findByFloorAndSpot(floor, spot)
+    fun validateParkingSpot(parkingSpot: ParkingSpot?): ParkingSpot =
+        parkingSpot ?: throw CheckOutException("Invalid parking spot OR doesn't exist!")
 
-    fun parkingSpotIsEmpty(inUseBy: String?): String? = inUseBy
+    fun validateParkingSpotIsEmpty(inUseBy: String?): String? =
+        inUseBy ?: throw CheckOutException("There are no vehicles at this spot")
 
-    fun vehicleBelongsToTheSpot(vehicleId: String, inUseBy: String?): Boolean = (vehicleId == inUseBy)
+    fun vehicleBelongsToTheSpot(vehicleId: String, inUseBy: String?): String {
+        if (vehicleId == inUseBy) {
+            return inUseBy
+        } else {
+            throw CheckOutException("Invalid Spot! Please Insert correct spot corresponding to the vehicle location")
+        }
+    }
 
     fun validateIfCarIsAlreadyParked(inUseBy: String?, vehicleId: String?): Boolean = (inUseBy == vehicleId)
 
