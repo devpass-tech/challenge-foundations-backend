@@ -11,6 +11,7 @@ import io.devpass.parky.requests.CheckInRequest
 import io.devpass.parky.requests.CheckOutRequest
 import io.devpass.parky.service.Utils.ValidatedCheckOut
 import org.springframework.stereotype.Service
+import java.time.LocalDateTime
 
 @Service
 class CheckInOutService(
@@ -53,7 +54,7 @@ class CheckInOutService(
         return vehicle.id
     }
 
-    fun checkOut(checkOutRequest: CheckOutRequest) {
+    fun checkOut(checkOutRequest: CheckOutRequest)  {
         val vehicle = vehicleService.findVehicleLicensePlate(checkOutRequest.vehicleCheckOut.licensePlate)
             ?: throw CheckOutException("Vehicle not Found, please Check-in first!")
 
@@ -61,15 +62,15 @@ class CheckInOutService(
             checkOutRequest.spotCheckOut.floor,
             checkOutRequest.spotCheckOut.spot
         )
-        lateinit var inUseBy: String
 
         val validatedCheckOutRequest: ValidatedCheckOut = with(checkOutRequest) {
             validateParkingSpot(parkingSpotCheckOut)
 
+            // validar possibilidade de remover o !!
             validateParkingSpotIsEmpty(parkingSpotCheckOut!!.inUseBy)
 
-            inUseBy = (vehicleBelongsToTheSpot(vehicle.id, parkingSpotCheckOut.inUseBy))
-
+            // nome do metodo nao condiz com o retorno
+           val inUseBy = (vehicleBelongsToTheSpot(vehicle.id, parkingSpotCheckOut.inUseBy))
 
             return@with ValidatedCheckOut(
                 id = vehicle.id,
@@ -87,10 +88,9 @@ class CheckInOutService(
 
         val parkingSpotEventCheckout = ParkingSpotEvent(
             parkingSpotId = validatedCheckOutRequest.parkingSpotId,
-            event = "Check-out"
+            event = "Check-out",
             createdAt = LocalDateTime.now(),
             vehicleId = vehicle.id
-
         )
 
         parkingSpotEventRepository.save(parkingSpotEventCheckout)

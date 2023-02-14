@@ -9,3 +9,13 @@ services:
       - '3306:3306'
     expose:
       - '3306'
+  vehicle-verification:
+    image: michelfsilva/dev-pass-vehicle-verification:2.0.0
+    environment:
+      BLACK_LIST_PLATES: "PQD-1J30;PKS-2K12"
+    ports:
+      - '8081:8080'
+  parky-payment:
+    image: michelfsilva/parky-payment:1.0.0
+    ports:
+      - '8082:8080'
