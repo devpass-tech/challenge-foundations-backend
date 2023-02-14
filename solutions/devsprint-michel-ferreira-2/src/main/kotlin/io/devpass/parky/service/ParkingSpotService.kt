@@ -8,18 +8,16 @@ import org.springframework.stereotype.Service
 class ParkingSpotService(
     private val parkingSpotRepository: ParkingSpotRepository
 ) {
-    fun listParkingSpotService(): List<ParkingSpot> {
-        val inUseBy = null
-        if (inUseBy != null) {
-            parkingSpotRepository.findAll().toList()
-        } else if (inUseBy == false) {
-            parkingSpotRepository.findByInUse()
+    fun listParkingSpot(InUse: Boolean? = null): List<ParkingSpot> {
+        if (InUse == null) {
+            parkingSpotRepository.getAllParkingSpots()
+        }
+        if (InUse != true) {
+            parkingSpotRepository.findByInUseBy()
         } else {
             parkingSpotRepository.findByInUseByIsNull()
         }
 
-        return parkingSpotRepository.findByInUseByIsNull()
+        return listParkingSpot()
     }
 }
-
-

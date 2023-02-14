@@ -2,11 +2,8 @@ package io.devpass.parky.controller
 
 import io.devpass.parky.entity.ParkingSpot
 import io.devpass.parky.service.ParkingSpotService
-import org.springframework.web.bind.annotation.GetMapping
-import org.springframework.web.bind.annotation.PathVariable
-import org.springframework.web.bind.annotation.RequestMapping
-import org.springframework.web.bind.annotation.RequestParam
-import org.springframework.web.bind.annotation.RestController
+import org.springframework.http.ResponseEntity
+import org.springframework.web.bind.annotation.*
 
 @RestController
 @RequestMapping()
@@ -16,9 +13,11 @@ class ParkingSpotController (
     @GetMapping("/listParkingSpot")
     fun listParkingSpot(
         @PathVariable id: Long,
-        @RequestParam(required = false) floor: Int,
-        @RequestParam(required = false) spot: Int,
-        @RequestParam( name = "inUse", required = false) InUseBy: Boolean?): List<ParkingSpot>{
-        return parkingSpotService.listParkingSpotService()
+        @RequestParam(required = true) floor: Int,
+        @RequestParam(required = true) spot: Int,
+        @RequestParam(required = false) InUse: Boolean?): ResponseEntity<List<ParkingSpot>> {
+        val parkingSport = parkingSpotService.listParkingSpot()
+
+        return ResponseEntity.ok(parkingSport)
     }
 }
