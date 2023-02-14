@@ -10,7 +10,8 @@ import java.util.*
 
 @Service
 class VehicleService(
-    private val vehicleRepository: VehicleRepository
+    private val vehicleRepository: VehicleRepository,
+    private val parkingSpotEventService: ParkingSpotEventService
 ) {
 
     fun findAll(): List<Vehicle> {
