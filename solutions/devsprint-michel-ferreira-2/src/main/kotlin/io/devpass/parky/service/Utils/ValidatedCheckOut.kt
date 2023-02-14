@@ -1,6 +1,6 @@
 package io.devpass.parky.service.Utils
 
-data class ValidateCheckoutOut(
+data class ValidatedCheckOut(
     val id : String,
     val parkingSpotId : Int,
     val inUseBy : String,

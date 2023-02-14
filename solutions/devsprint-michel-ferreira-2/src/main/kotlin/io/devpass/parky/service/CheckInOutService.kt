@@ -9,7 +9,7 @@ import io.devpass.parky.repository.ParkingSpotEventRepository
 import io.devpass.parky.repository.ParkingSpotRepository
 import io.devpass.parky.requests.CheckInRequest
 import io.devpass.parky.requests.CheckOutRequest
-import io.devpass.parky.service.Utils.ValidateCheckoutOut
+import io.devpass.parky.service.Utils.ValidatedCheckOut
 import org.springframework.stereotype.Service
 
 @Service
@@ -61,14 +61,14 @@ class CheckInOutService(
         )
         lateinit var inUseBy: String
 
-        val validatedCheckOutRequest: ValidateCheckoutOut = with(checkOutRequest) {
+        val validatedCheckOutRequest: ValidatedCheckOut = with(checkOutRequest) {
             validateParkingSpot(parkingSpotCheckOut)
 
             validateParkingSpotIsEmpty(parkingSpotCheckOut!!.inUseBy)
 
             inUseBy = (vehicleBelongsToTheSpot(vehicle.id, parkingSpotCheckOut.inUseBy))
 
-            return@with ValidateCheckoutOut(
+            return@with ValidatedCheckOut(
                 id = vehicle.id,
                 inUseBy = inUseBy,
                 parkingSpotId = parkingSpotCheckOut.id,
