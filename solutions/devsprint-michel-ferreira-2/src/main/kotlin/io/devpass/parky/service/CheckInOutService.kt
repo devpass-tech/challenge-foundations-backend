@@ -18,7 +18,7 @@ class CheckInOutService(
     private val parkingSpotEventRepository: ParkingSpotEventRepository,
     private val parkingSpotRepository: ParkingSpotRepository
 ) {
-    fun checkIn(checkInRequest: CheckInRequest) {
+    fun checkIn(checkInRequest: CheckInRequest): String {
         val vehicle = vehicleService.createIfNotExists(
             (Vehicle(
                 licensePlate = checkInRequest.vehicleCheckIn.licensePlate,
@@ -28,6 +28,9 @@ class CheckInOutService(
             ))
         )
 
+        parkingSpotRepository.findByInUseBy(vehicle.id)
+            ?.let { throw CheckInException("Car already parked in spot: ${it.spot} and floor: ${it.floor}") }
+
         val freeSpot = parkingSpotRepository.findByFloorAndSpot(
             floor = checkInRequest.spotCheckIn.floor,
             spot = checkInRequest.spotCheckIn.spot
@@ -35,9 +38,6 @@ class CheckInOutService(
 
         // Validacao
         if (freeSpot == null) throw CheckInException("Free Spot not Found")
-
-        validateIfCarIsAlreadyParked(freeSpot.inUseBy, vehicle.id)
-
         if (freeSpot.inUseBy != null) throw CheckInException("Parking spot is not available")
 
         freeSpot.inUseBy = vehicle.id
@@ -46,9 +46,11 @@ class CheckInOutService(
         parkingSpotEventRepository.save(
             ParkingSpotEvent(
                 parkingSpotId = freeSpot.id,
-                event = "Check-in"
+                event = "Check-in",
+                vehicleId = vehicle.id
             )
         )
+        return vehicle.id
     }
 
     fun checkOut(checkOutRequest: CheckOutRequest) {
@@ -68,6 +70,7 @@ class CheckInOutService(
 
             inUseBy = (vehicleBelongsToTheSpot(vehicle.id, parkingSpotCheckOut.inUseBy))
 
+
             return@with ValidatedCheckOut(
                 id = vehicle.id,
                 inUseBy = inUseBy,
@@ -85,6 +88,9 @@ class CheckInOutService(
         val parkingSpotEventCheckout = ParkingSpotEvent(
             parkingSpotId = validatedCheckOutRequest.parkingSpotId,
             event = "Check-out"
+            createdAt = LocalDateTime.now(),
+            vehicleId = vehicle.id
+
         )
 
         parkingSpotEventRepository.save(parkingSpotEventCheckout)

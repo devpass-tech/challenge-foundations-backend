@@ -17,6 +17,9 @@ data class ParkingSpotEvent(
     @Column(name = "event", nullable = false)
     var event: String,
 
+    @Column(name = "vehicle_id", nullable = false)
+    var vehicleId : String,
+
     @CreationTimestamp
     @Column(name = "created_at", nullable = false)
     var createdAt: LocalDateTime? = LocalDateTime.now()
