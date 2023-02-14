@@ -46,7 +46,8 @@ class CheckInOutService(
         parkingSpotEventRepository.save(
             ParkingSpotEvent(
                 parkingSpotId = freeSpot.id,
-                event = "Check-in"
+                event = "Check-in",
+                vehicleId = vehicle.id
             )
         )
     }
@@ -79,7 +80,8 @@ class CheckInOutService(
         val parkingSpotEventCheckout = ParkingSpotEvent(
             parkingSpotId = parkingSpotCheckOut.id,
             event = "Check-out",
-            createdAt = LocalDateTime.now()
+            createdAt = LocalDateTime.now(),
+            vehicleId =  vehicle.id
         )
 
         parkingSpotEventRepository.save(parkingSpotEventCheckout)
