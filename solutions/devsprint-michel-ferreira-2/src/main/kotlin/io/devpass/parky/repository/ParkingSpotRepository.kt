@@ -7,8 +7,5 @@ import org.springframework.stereotype.Repository
 @Repository
 interface ParkingSpotRepository : CrudRepository<ParkingSpot, Int> {
     fun findByFloorAndSpot(floor: Int, spot: Int): ParkingSpot?
-    fun findByInUseByIsNull(): List<ParkingSpot>
-    fun getAllParkingSpots(): List<ParkingSpot>
-    fun findByInUseBy(): List<ParkingSpot>
-
+    fun findByInUseBy(inUseBy: String): ParkingSpot?
 }

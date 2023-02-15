@@ -5,4 +5,6 @@ import org.springframework.data.repository.CrudRepository
 import org.springframework.stereotype.Repository
 
 @Repository
-interface ParkingSpotEventRepository : CrudRepository<ParkingSpotEvent, Int>
+interface ParkingSpotEventRepository : CrudRepository<ParkingSpotEvent, Int> {
+    fun findByVehicleId(vehicleId: String): List<ParkingSpotEvent>
+}
