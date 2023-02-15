@@ -13,10 +13,10 @@ class ParkingSpotController (
     @GetMapping("/listParkingSpot")
     fun listParkingSpot(
         @PathVariable id: Long,
-        @RequestParam(required = true) floor: Int,
-        @RequestParam(required = true) spot: Int,
-        @RequestParam(required = false) InUse: Boolean?): ResponseEntity<List<ParkingSpot>> {
-        val parkingSport = parkingSpotService.listParkingSpot()
+        @RequestParam(required = false) floor: Int,
+        @RequestParam(required = false) spot: Int,
+        @RequestParam(required = true) InUseBy: String): ResponseEntity<ParkingSpot> {
+        val parkingSport = parkingSpotService.listParkingSpot("inUse")
 
         return ResponseEntity.ok(parkingSport)
     }
