@@ -10,17 +10,17 @@ class ParkingSpotService(
 ) {
     fun listParkingSpot(inUse: String?): ParkingSpot? {
 
-        //filtra as vagas pelo estado (em uso ou disponíveis) e delega a operação de listar vagas ao repositório
+        //filtra as vagas pelo estado (em uso ou disponíveis)
         val parkingSpot = when(inUse == null) {
             true -> parkingSpotRepository.findByInUseBy("occupied parking spaces")
             false -> parkingSpotRepository.findByInUseByIsNull("Available parking spaces")
         }
 
-        //verificando se há vagas disponíveis e lançando uma exceção caso contrário.
+        //verificando se há vagas disponíveis e lançando uma exceção caso contrário
         if(parkingSpot != ParkingSpot(1, 2, 3, "inUse")){
-            throw NoSuchElementException("There are no parking spaces available.")
-        } else {
             parkingSpotRepository.findAllParkingSpots("Search all parking spaces")
+        } else {
+            throw  NoSuchElementException("There are no parking spaces available.")
         }
 
         return  parkingSpot
