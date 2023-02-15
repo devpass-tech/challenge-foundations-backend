@@ -1,6 +1,7 @@
 package io.devpass.parky.entity
 
 import javax.persistence.*
+
 @Entity
 data class ParkingSpot(
     @Id

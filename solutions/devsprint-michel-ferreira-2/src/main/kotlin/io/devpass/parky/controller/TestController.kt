@@ -76,7 +76,7 @@ class TestController(
     @GetMapping("/all-parking-spot")
     @ResponseStatus(HttpStatus.OK)
     fun getAllParkingSpot(): List<ParkingSpot> {
-        return parkingSpotService.findAllParkingSpot()
+        return parkingSpotService.listParkingSpotService()
     }
 
     @PostMapping("/check-out")

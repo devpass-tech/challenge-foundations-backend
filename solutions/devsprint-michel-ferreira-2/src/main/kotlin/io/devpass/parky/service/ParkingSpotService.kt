@@ -1,8 +1,6 @@
 package io.devpass.parky.service
 
 import io.devpass.parky.entity.ParkingSpot
-import io.devpass.parky.entity.Vehicle
-import io.devpass.parky.framework.getOrNull
 import io.devpass.parky.repository.ParkingSpotRepository
 import org.springframework.stereotype.Service
 
@@ -10,11 +8,21 @@ import org.springframework.stereotype.Service
 class ParkingSpotService(
     private val parkingSpotRepository: ParkingSpotRepository
 ) {
-    fun findById(id: Int): ParkingSpot? {
-        return parkingSpotRepository.findById(id).getOrNull()
-    }
+    fun listParkingSpot(inUse: String?): ParkingSpot? {
 
-    fun findAllParkingSpot(): List<ParkingSpot> {
-        return parkingSpotRepository.findAll().filter { it.inUseBy == null }.toList()
+        //filtra as vagas pelo estado (em uso ou disponíveis)
+        val parkingSpot = when (inUse == null) {
+            true -> parkingSpotRepository.findByInUseBy("occupied parking spaces")
+            false -> parkingSpotRepository.findByInUseByIsNull("Available parking spaces")
+        }
+
+        //verificando se há vagas disponíveis e lançando uma exceção caso contrário
+        if (parkingSpot != ParkingSpot(1, 2, 3, "inUse")) {
+            parkingSpotRepository.findAllParkingSpots("Search all parking spaces")
+        } else {
+            throw NoSuchElementException("There are no parking spaces available.")
+        }
+
+        return parkingSpot
     }
 }
