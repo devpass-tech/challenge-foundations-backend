@@ -35,11 +35,6 @@ class TestController(
         )
     }
 
-    @GetMapping("/spot-by-id/{id}")
-    fun getParkingSpotById(
-        @PathVariable id: Int
-    ) = parkingSpotService.findById(id)
-
     @GetMapping("/vehicles/{id}")
     @ResponseStatus(HttpStatus.OK)
     fun findVehiclesById(@PathVariable id: String): Vehicle? {
@@ -76,7 +71,7 @@ class TestController(
     @GetMapping("/all-parking-spot")
     @ResponseStatus(HttpStatus.OK)
     fun getAllParkingSpot(): List<ParkingSpot> {
-        return parkingSpotService.listParkingSpotService()
+        return parkingSpotService.listParkingSpot()
     }
 
     @PostMapping("/check-out")

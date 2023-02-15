@@ -1,6 +1,7 @@
 package io.devpass.parky.controller
 
 import io.devpass.parky.entity.ParkingSpot
+import io.devpass.parky.entity.ParkingSpotEvent
 import io.devpass.parky.service.ParkingSpaceMovementService
 import org.springframework.http.ResponseEntity
 import org.springframework.web.bind.annotation.GetMapping
@@ -15,7 +16,7 @@ class ParkingSpaceMovement(
 ) {
 
     @GetMapping
-    fun listParkingSpaceMovement(@PathVariable id: Int): ResponseEntity<List<ParkingSpot>> {
+    fun listParkingSpaceMovement(@PathVariable id: Int): ResponseEntity<List<ParkingSpotEvent>> {
         val movement = parkingSpaceMovementService.listParkingSpaceMovement(id)
         return ResponseEntity.ok(movement)
     }

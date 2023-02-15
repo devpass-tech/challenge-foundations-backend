@@ -1,20 +1,12 @@
 package io.devpass.parky.service
 
-import io.devpass.parky.entity.ParkingSpot
-import io.devpass.parky.framework.ParkingSpotNotFoundException
-import io.devpass.parky.repository.ParkingSpaceMovementRepository
-import io.devpass.parky.repository.ParkingSpotRepository
+import io.devpass.parky.entity.ParkingSpotEvent
+import io.devpass.parky.repository.ParkingSpotEventRepository
 import org.springframework.stereotype.Service
 
 @Service
 class ParkingSpaceMovementService(
-    private val parkingSpaceMovementRepository: ParkingSpaceMovementRepository,
-    private val parkingSpotRepository: ParkingSpotRepository
+    private val parkingSpotEventRepository: ParkingSpotEventRepository
 ) {
-    fun listParkingSpaceMovement(id: Int): List<ParkingSpot>? {
-        val vacancy = parkingSpotRepository.findById(id)
-        return vacancy.orElseThrow { ParkingSpotNotFoundException("Parking Spot Not Found") }.let {
-            parkingSpaceMovementRepository.findByParkingSpot(it.id)
-        }
-    }
+    fun listParkingSpaceMovement(id: Int): List<ParkingSpotEvent> = parkingSpotEventRepository.findByParkingSpotId(id)
 }
