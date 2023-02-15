@@ -9,5 +9,5 @@ interface ParkingSpotRepository : CrudRepository<ParkingSpot, Int> {
     fun findByFloorAndSpot(floor: Int, spot: Int): ParkingSpot?
     fun findByInUseBy(inUseBy: String): ParkingSpot?
     fun findByInUseByIsNull(inUseBy: String): ParkingSpot?
-    fun findAllParkingSpots(inUseBy: String): ParkingSpot?
+    fun findAllParkingSpots(inUseBy: String): ParkingSpot? 
 }
