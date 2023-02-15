@@ -5,4 +5,7 @@ class VehicleException(message: String) : OwnedException(message)
 class CheckInException(message: String) : OwnedException(message)
 class CheckOutException(message: String) : OwnedException(message)
 class NotFoundException(message: String) : OwnedException(message)
+class VehicleVerificationException(message: String) : OwnedException(message)
+class RestrictedVehicleException(message: String) : OwnedException(message)
 class ParkingSpotNotFoundException(message: String) : OwnedException(message)
+
