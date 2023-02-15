@@ -3,13 +3,14 @@ package io.devpass.parky.service
 import io.devpass.parky.entity.ParkingSpot
 import io.devpass.parky.entity.ParkingSpotEvent
 import io.devpass.parky.entity.Vehicle
+import io.devpass.parky.enums.EnumCheckInOut
 import io.devpass.parky.framework.CheckInException
 import io.devpass.parky.framework.CheckOutException
 import io.devpass.parky.repository.ParkingSpotEventRepository
 import io.devpass.parky.repository.ParkingSpotRepository
 import io.devpass.parky.requests.CheckInRequest
 import io.devpass.parky.requests.CheckOutRequest
-import io.devpass.parky.service.Utils.ValidatedCheckOut
+import io.devpass.parky.service.tools.ValidatedCheckOut
 import org.springframework.stereotype.Service
 import java.time.LocalDateTime
 
@@ -19,7 +20,7 @@ class CheckInOutService(
     private val parkingSpotEventRepository: ParkingSpotEventRepository,
     private val parkingSpotRepository: ParkingSpotRepository
 ) {
-    fun checkIn(checkInRequest: CheckInRequest): String {
+    fun checkIn(checkInRequest: CheckInRequest) {
         val vehicle = vehicleService.createIfNotExists(
             (Vehicle(
                 licensePlate = checkInRequest.vehicleCheckIn.licensePlate,
@@ -30,7 +31,16 @@ class CheckInOutService(
         )
 
         parkingSpotRepository.findByInUseBy(vehicle.id)
-            ?.let { throw CheckInException("Car already parked in spot: ${it.spot} and floor: ${it.floor}") }
+            ?.let {
+                parkingSpotEventRepository.save(
+                    ParkingSpotEvent(
+                        parkingSpotId = it.id,
+                        event = EnumCheckInOut.CHECKIN_DUPLICADO,
+                        vehicleId = it.inUseBy!!
+                    )
+                )
+                throw CheckInException("Car already parked in spot: ${it.spot} and floor: ${it.floor}")
+            }
 
         val freeSpot = parkingSpotRepository.findByFloorAndSpot(
             floor = checkInRequest.spotCheckIn.floor,
@@ -47,16 +57,15 @@ class CheckInOutService(
         parkingSpotEventRepository.save(
             ParkingSpotEvent(
                 parkingSpotId = freeSpot.id,
-                event = "Check-in",
+                event = EnumCheckInOut.CHECKIN,
                 vehicleId = vehicle.id
             )
         )
-        return vehicle.id
     }
 
-    fun checkOut(checkOutRequest: CheckOutRequest)  {
+    fun checkOut(checkOutRequest: CheckOutRequest) {
         val vehicle = vehicleService.findVehicleLicensePlate(checkOutRequest.vehicleCheckOut.licensePlate)
-            ?: throw CheckOutException("Vehicle not Found, please Check-in first!")
+            ?: throw CheckOutException("Vehicle with this license plate not Found, please Check-in first!")
 
         val parkingSpotCheckOut = parkingSpotRepository.findByFloorAndSpot(
             checkOutRequest.spotCheckOut.floor,
@@ -66,18 +75,18 @@ class CheckInOutService(
         val validatedCheckOutRequest: ValidatedCheckOut = with(checkOutRequest) {
             validateParkingSpot(parkingSpotCheckOut)
 
-            // validar possibilidade de remover o !!
-            validateParkingSpotIsEmpty(parkingSpotCheckOut!!.inUseBy)
+            val inUseBy: String = parkingSpotCheckOut!!.inUseBy
+                ?: throw CheckOutException("There are no vehicles at this spot")
 
-            // nome do metodo nao condiz com o retorno
-           val inUseBy = (vehicleBelongsToTheSpot(vehicle.id, parkingSpotCheckOut.inUseBy))
+            vehicleBelongsToTheSpot(vehicle.id, parkingSpotCheckOut.inUseBy)
 
             return@with ValidatedCheckOut(
-                id = vehicle.id,
+                vehicleId = vehicle.id,
                 inUseBy = inUseBy,
                 parkingSpotId = parkingSpotCheckOut.id,
                 floor = parkingSpotCheckOut.floor,
-                spot = parkingSpotCheckOut.spot
+                spot = parkingSpotCheckOut.spot,
+                event = EnumCheckInOut.CHECKOUT
             )
         }
 
@@ -87,10 +96,10 @@ class CheckInOutService(
         }
 
         val parkingSpotEventCheckout = ParkingSpotEvent(
+            vehicleId = validatedCheckOutRequest.vehicleId,
             parkingSpotId = validatedCheckOutRequest.parkingSpotId,
-            event = "Check-out",
+            event = EnumCheckInOut.CHECKOUT,
             createdAt = LocalDateTime.now(),
-            vehicleId = vehicle.id
         )
 
         parkingSpotEventRepository.save(parkingSpotEventCheckout)
@@ -99,17 +108,11 @@ class CheckInOutService(
     fun validateParkingSpot(parkingSpot: ParkingSpot?): ParkingSpot =
         parkingSpot ?: throw CheckOutException("Invalid parking spot OR doesn't exist!")
 
-    fun validateParkingSpotIsEmpty(inUseBy: String?): String? =
-        inUseBy ?: throw CheckOutException("There are no vehicles at this spot")
-
-    fun vehicleBelongsToTheSpot(vehicleId: String, inUseBy: String?): String {
+    fun vehicleBelongsToTheSpot(vehicleId: String, inUseBy: String?): Boolean {
         if (vehicleId == inUseBy) {
-            return inUseBy
+            return true
         } else {
             throw CheckOutException("Invalid Spot! Please Insert correct spot corresponding to the vehicle location")
         }
     }
-
-    fun validateIfCarIsAlreadyParked(inUseBy: String?, vehicleId: String?): Boolean = (inUseBy == vehicleId)
-
 }

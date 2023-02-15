@@ -1,5 +1,6 @@
 package io.devpass.parky.entity
 
+import io.devpass.parky.enums.EnumCheckInOut
 import org.hibernate.annotations.CreationTimestamp
 import java.time.LocalDateTime
 import javax.persistence.*
@@ -15,7 +16,7 @@ data class ParkingSpotEvent(
     var parkingSpotId: Int,
 
     @Column(name = "event", nullable = false)
-    var event: String,
+    var event: EnumCheckInOut,
 
     @Column(name = "vehicle_id", nullable = false)
     var vehicleId : String,
