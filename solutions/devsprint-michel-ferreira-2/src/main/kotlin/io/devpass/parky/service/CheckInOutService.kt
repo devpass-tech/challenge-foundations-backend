@@ -3,8 +3,11 @@ package io.devpass.parky.service
 import io.devpass.parky.entity.ParkingSpot
 import io.devpass.parky.entity.ParkingSpotEvent
 import io.devpass.parky.entity.Vehicle
+import io.devpass.parky.enums.VehicleVerificationStatus
 import io.devpass.parky.framework.CheckInException
 import io.devpass.parky.framework.CheckOutException
+import io.devpass.parky.framework.RestrictedVehicleException
+import io.devpass.parky.provider.VehicleVerificationProvider
 import io.devpass.parky.repository.ParkingSpotEventRepository
 import io.devpass.parky.repository.ParkingSpotRepository
 import io.devpass.parky.requests.CheckInRequest
@@ -17,7 +20,8 @@ import java.time.LocalDateTime
 class CheckInOutService(
     private val vehicleService: VehicleService,
     private val parkingSpotEventRepository: ParkingSpotEventRepository,
-    private val parkingSpotRepository: ParkingSpotRepository
+    private val parkingSpotRepository: ParkingSpotRepository,
+    private val vehicleVerificationProvider: VehicleVerificationProvider
 ) {
     fun checkIn(checkInRequest: CheckInRequest): String {
         val vehicle = vehicleService.createIfNotExists(
@@ -28,6 +32,12 @@ class CheckInOutService(
                 owner = checkInRequest.vehicleCheckIn.owner
             ))
         )
+
+        val verification = vehicleVerificationProvider.verifyPLicensePlate(vehicle.licensePlate)
+
+        if(verification.status == VehicleVerificationStatus.RESTRICAO.name) {
+            throw RestrictedVehicleException("This vehicle is restricted")
+        }
 
         parkingSpotRepository.findByInUseBy(vehicle.id)
             ?.let { throw CheckInException("Car already parked in spot: ${it.spot} and floor: ${it.floor}") }
