@@ -6,16 +6,17 @@ import org.springframework.http.ResponseEntity
 import org.springframework.web.bind.annotation.*
 
 @RestController
-@RequestMapping()
-class ParkingSpotController (
+@RequestMapping("/listParkingSpot")
+class ParkingSpotController(
     private val parkingSpotService: ParkingSpotService
-){
-    @GetMapping("/listParkingSpot")
+) {
+    @GetMapping()
     fun listParkingSpot(
-        @PathVariable id: Long,
+        @PathVariable id: Int,
         @RequestParam(required = false) floor: Int,
         @RequestParam(required = false) spot: Int,
-        @RequestParam(required = true) InUseBy: String): ResponseEntity<ParkingSpot> {
+        @RequestParam(required = true) InUseBy: String
+    ): ResponseEntity<ParkingSpot> {
         val parkingSport = parkingSpotService.listParkingSpot("inUse")
 
         return ResponseEntity.ok(parkingSport)
