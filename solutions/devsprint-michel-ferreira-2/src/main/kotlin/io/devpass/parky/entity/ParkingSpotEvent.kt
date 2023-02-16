@@ -16,6 +16,7 @@ data class ParkingSpotEvent(
     var parkingSpotId: Int,
 
     @Column(name = "event", nullable = false)
+    @Enumerated(EnumType.STRING)
     var event: EnumCheckInOut,
 
     @Column(name = "vehicle_id", nullable = false)
