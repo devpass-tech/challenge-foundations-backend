@@ -4,6 +4,9 @@ import io.devpass.parky.controller.request.VehicleRequest
 import io.devpass.parky.entity.ParkingSpot
 import io.devpass.parky.entity.Vehicle
 import io.devpass.parky.framework.getOrNull
+import io.devpass.parky.provider.ParkyPaymentClient
+import io.devpass.parky.provider.request.PaymentCheckOutRequest
+import io.devpass.parky.provider.response.PaymentCheckOutResponse
 import io.devpass.parky.requests.CheckInRequest
 import io.devpass.parky.requests.CheckOutRequest
 import io.devpass.parky.service.CheckInOutService
@@ -25,7 +28,8 @@ import java.util.*
 class TestController(
     private val checkInOutService: CheckInOutService,
     private val parkingSpotService: ParkingSpotService,
-    private val vehicleService: VehicleService
+    private val vehicleService: VehicleService,
+    private val parkyPaymentClient: ParkyPaymentClient
 ) {
 
     @GetMapping("/all-vehicles")
@@ -76,8 +80,13 @@ class TestController(
 
     @PostMapping("/check-out")
     @ResponseStatus(HttpStatus.CREATED)
-    fun checkOut(@RequestBody request: CheckOutRequest) {
-        checkInOutService.checkOut(request)
-        ResponseEntity.status(HttpStatus.CREATED).body(request)
+    fun checkOut(): ResponseEntity<PaymentCheckOutResponse> {
+        val value = parkyPaymentClient.calculateCheckOut(
+            PaymentCheckOutRequest(
+                "2023-02-10 05:10:00",
+                "2023-02-10 08:11:00"
+            )
+        )
+        return ResponseEntity.status(HttpStatus.CREATED).body(value)
     }
 }
